@@ -58,9 +58,9 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(TAG, chatMessage.text)
 
                     if(chatMessage.fromId == FirebaseAuth.getInstance().uid){
-                        adapter.add(ChatToItem(chatMessage.text))
-                    } else {
                         adapter.add(ChatFromItem(chatMessage.text))
+                    } else {
+                        adapter.add(ChatToItem(chatMessage.text))
                     }
                 }
             }
