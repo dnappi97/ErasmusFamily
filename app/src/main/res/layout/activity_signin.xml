@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_red_dark"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/selectphoto_button_register"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
+            android:background="@drawable/rounded_select_photo_button"
+            android:text="SELECT PHOTO"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.806"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="80dp" />
+
+        <EditText
+            android:id="@+id/name_signin"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/rounded_edittext_register_login"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="text"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectphoto_button_register" />
+
+        <EditText
+            android:id="@+id/surname_signin"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_edittext_register_login"
+            android:ems="10"
+            android:hint="Surname"
+            android:inputType="text"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/name_signin"
+            app:layout_constraintStart_toStartOf="@+id/name_signin"
+            app:layout_constraintTop_toBottomOf="@+id/name_signin" />
+
+        <EditText
+            android:id="@+id/email_signin"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_edittext_register_login"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/surname_signin"
+            app:layout_constraintStart_toStartOf="@+id/surname_signin"
+            app:layout_constraintTop_toBottomOf="@+id/surname_signin" />
+
+        <EditText
+            android:id="@+id/password_signin"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_edittext_register_login"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/email_signin"
+            app:layout_constraintStart_toStartOf="@+id/email_signin"
+            app:layout_constraintTop_toBottomOf="@+id/email_signin" />
+
+
+
+        <RadioGroup
+            android:id="@+id/radioGroup_signin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/password_signin"
+            app:layout_constraintStart_toStartOf="@+id/password_signin"
+            app:layout_constraintTop_toBottomOf="@+id/password_signin">
+
+            <RadioButton
+                android:id="@+id/non_andato_signin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dovrò partecipare all'Erasmus"
+                android:textSize="16dp"
+                tools:layout_editor_absoluteX="58dp"
+                tools:layout_editor_absoluteY="441dp" />
+
+            <RadioButton
+                android:id="@+id/andato_signin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ho già partecipato all'Erasmus"
+                android:textSize="16dp"
+                tools:layout_editor_absoluteX="58dp"
+                tools:layout_editor_absoluteY="441dp" />
+
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/registrati_signin"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="Registrati"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/radioGroup_signin"
+            app:layout_constraintStart_toStartOf="@+id/radioGroup_signin"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup_signin" />
+
+        <TextView
+            android:id="@+id/account_signin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Possiedi già un account?"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/registrati_signin"
+            app:layout_constraintStart_toStartOf="@+id/registrati_signin"
+            app:layout_constraintTop_toBottomOf="@+id/registrati_signin" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circle_imageview_signin"
+            app:civ_border_width="4dp"
+            app:civ_border_color="@android:color/black"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="@+id/selectphoto_button_register"
+            app:layout_constraintEnd_toEndOf="@+id/selectphoto_button_register"
+            app:layout_constraintStart_toStartOf="@+id/selectphoto_button_register"
+            app:layout_constraintTop_toTopOf="@+id/selectphoto_button_register" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</ScrollView>

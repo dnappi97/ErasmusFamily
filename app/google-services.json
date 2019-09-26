@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "718555801056",
+    "firebase_url": "https://erasmusapk.firebaseio.com",
+    "project_id": "erasmusapk",
+    "storage_bucket": "erasmusapk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718555801056:android:ee834d235d3bef2bb43785",
+        "android_client_info": {
+          "package_name": "com.example.erasmusfamily"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718555801056-1hlejfmnv693bt6cfg0qcgithbk8r7dg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.erasmusfamily",
+            "certificate_hash": "c7063355b64965e736ebf8ab20750d119de2630f"
+          }
+        },
+        {
+          "client_id": "718555801056-88bjv1oefjl30i88orenoqvrrrak0brf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd3YiuV_Ouau1ak6DyX9IDx8vrwjCC5VQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "718555801056-88bjv1oefjl30i88orenoqvrrrak0brf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
