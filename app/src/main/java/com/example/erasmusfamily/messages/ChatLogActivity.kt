@@ -11,6 +11,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -36,7 +37,6 @@ class ChatLogActivity : AppCompatActivity() {
 
         supportActionBar?.title = user.name+" "+user.surname
 
-        //setupDammyData()
 
         listenForMessages()
 
@@ -60,7 +60,8 @@ class ChatLogActivity : AppCompatActivity() {
                     if(chatMessage.fromId == FirebaseAuth.getInstance().uid){
                         adapter.add(ChatFromItem(chatMessage.text))
                     } else {
-                        adapter.add(ChatToItem(chatMessage.text))
+                        val toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+                        adapter.add(ChatToItem(chatMessage.text, toUser))
                     }
                 }
             }
@@ -111,17 +112,6 @@ class ChatLogActivity : AppCompatActivity() {
 
     }
 
-    private fun setupDammyData(){
-        val adapter = GroupAdapter<ViewHolder>()
-
-        adapter.add(ChatFromItem("ciao"))
-        adapter.add(ChatToItem("mammt fa a puttan"))
-        adapter.add(ChatFromItem("grazie per l'informazione"))
-        adapter.add(ChatToItem("mammt"))
-
-
-        recyclerview_chat_log.adapter = adapter
-    }
 
 }
 
@@ -137,10 +127,14 @@ class ChatFromItem(val text: String): Item<ViewHolder>(){
     }
 }
 
-class ChatToItem(val text: String): Item<ViewHolder>(){
+class ChatToItem(val text: String, val user: User): Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.textview_to_row.text = text
 
+        //Aggiungi l'immagine utente alla chat
+        val uri = user.profileImageUrl
+        val targetImageView = viewHolder.itemView.imageview_to_row
+        Picasso.get().load(uri).into(targetImageView)
 
     }
 
