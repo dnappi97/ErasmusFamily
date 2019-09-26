@@ -9,6 +9,7 @@ import android.view.MenuItem
 import com.example.erasmusfamily.registerlogin.MainActivity
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.models.User
+import com.example.erasmusfamily.registerlogin.SigninActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,7 +18,7 @@ import com.google.firebase.database.ValueEventListener
 
 class MessagesActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         var currentUser: User? = null
     }
 
@@ -30,14 +31,14 @@ class MessagesActivity : AppCompatActivity() {
         verifyUserIsLoggedIn()
     }
 
-    private fun fetchCurrentUser(){
+    private fun fetchCurrentUser() {
         val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/user/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
                 currentUser = p0.getValue(User::class.java)
-                Log.d("MessagesActivity","User corrente: ${currentUser?.name}")
+                Log.d("LatestMessages", "Current user ${currentUser?.profileImageUrl}")
             }
 
             override fun onCancelled(p0: DatabaseError) {
@@ -46,10 +47,10 @@ class MessagesActivity : AppCompatActivity() {
         })
     }
 
-    private fun verifyUserIsLoggedIn(){
+    private fun verifyUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
-        if(uid == null){
-            val intent = Intent( this, MainActivity::class.java)
+        if (uid == null) {
+            val intent = Intent(this, SigninActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
@@ -58,12 +59,12 @@ class MessagesActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_new_message -> {
-                val intent = Intent( this, NewMessageActivity::class.java)
+                val intent = Intent(this, NewMessageActivity::class.java)
                 startActivity(intent)
             }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent( this, MainActivity::class.java)
+                val intent = Intent(this, SigninActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
@@ -76,4 +77,5 @@ class MessagesActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.nav_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
 }
