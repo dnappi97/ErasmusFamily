@@ -157,6 +157,8 @@ class SigninActivity: AppCompatActivity(){
             uid,
             name_signin.text.toString(),
             surname_signin.text.toString(),
+            email_signin.text.toString(),
+            password_signin.text.toString(),
             profileImageUrl,
             andrà,
             andato
