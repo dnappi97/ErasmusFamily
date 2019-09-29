@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity", "Try to show signin activity")
 
             //start signin activity
-            val intent= Intent(this, SigninActivity::class.java)
+            val intent= Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }

@@ -7,22 +7,17 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.erasmusfamily.registerlogin.MainActivity
 import com.example.erasmusfamily.R
-import com.example.erasmusfamily.messages.NewMessageActivity.Companion.USER_KEY
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.User
-import com.example.erasmusfamily.registerlogin.SigninActivity
+import com.example.erasmusfamily.registerlogin.MainActivity
+import com.example.erasmusfamily.registerlogin.RegisterActivity
 import com.example.erasmusfamily.view.LatestMessageRow
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_messages.*
-import kotlinx.android.synthetic.main.messages_row.view.*
-import kotlinx.android.synthetic.main.user_row_new_message.view.*
 
 class MessagesActivity : AppCompatActivity() {
 
@@ -48,7 +43,6 @@ class MessagesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//    setupDummyRows()
         listenForLatestMessages()
 
         fetchCurrentUser()
@@ -97,14 +91,6 @@ class MessagesActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<ViewHolder>()
 
-//  private fun setupDummyRows() {
-//
-//
-//    adapter.add(LatestMessageRow())
-//    adapter.add(LatestMessageRow())
-//    adapter.add(LatestMessageRow())
-//  }
-
     private fun fetchCurrentUser() {
         val uid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
@@ -124,7 +110,7 @@ class MessagesActivity : AppCompatActivity() {
     private fun verifyUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
-            val intent = Intent(this, SigninActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
@@ -138,7 +124,7 @@ class MessagesActivity : AppCompatActivity() {
             }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this, SigninActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }

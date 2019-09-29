@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".registerlogin.MainActivity"></activity>
-        <activity android:name=".registerlogin.SigninActivity" />
+        <activity android:name=".registerlogin.RegisterActivity" />
     </application>
 
 </manifest>

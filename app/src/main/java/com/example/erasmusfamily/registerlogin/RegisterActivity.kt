@@ -8,7 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_signin.*
+import kotlinx.android.synthetic.main.activity_register.*
 import android.util.Log.d
 import android.widget.Toast
 import com.example.erasmusfamily.R
@@ -19,13 +19,13 @@ import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
 
-class SigninActivity: AppCompatActivity(){
+class RegisterActivity: AppCompatActivity(){
 
     private val mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signin)
+        setContentView(R.layout.activity_register)
 
         registrati_signin.setOnClickListener{
             performRegister()
@@ -40,7 +40,7 @@ class SigninActivity: AppCompatActivity(){
         }
 
         selectphoto_button_register.setOnClickListener{
-            d("SigninActivity", "Try to show photo select")
+            d("RegisterActivity", "Try to show photo select")
 
             val intent=Intent(Intent.ACTION_PICK)
             intent.type="image/*"
@@ -55,7 +55,7 @@ class SigninActivity: AppCompatActivity(){
 
         if(requestCode== 0 && resultCode == Activity.RESULT_OK && data != null){
             //foto selezionata
-            d("SigninActivity","Photo was selected")
+            d("RegisterActivity","Photo was selected")
 
             selectedPhotoUri = data.data
 
@@ -125,11 +125,11 @@ class SigninActivity: AppCompatActivity(){
 
         ref.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
-                d("SigninActivity", "Successfully upload image: ${it.metadata?.path}")
+                d("RegisterActivity", "Successfully upload image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
                     it.toString()
-                    d("SigninActivity", "File Location: $it")
+                    d("RegisterActivity", "File Location: $it")
 
                     saveUserToFirebaseDatabase(it.toString())
                 }
@@ -167,7 +167,7 @@ class SigninActivity: AppCompatActivity(){
         ref.setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this, "Account creato con successo", Toast.LENGTH_SHORT).show()
-                d("SigninActivity", "Saved the user to Firebase Database")
+                d("RegisterActivity", "Saved the user to Firebase Database")
 
                 val intent = Intent(this, MessagesActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
