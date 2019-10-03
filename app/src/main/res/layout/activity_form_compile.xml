@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_light">
+
+    <TextView
+        android:id="@+id/text_domanda_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:text="Università ospitante:"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/universitàospitante_form_row"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:gravity="center"
+        android:hint="University Name"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_domanda_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_domanda_1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_domanda_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:textColor="@android:color/black"
+        android:text="Nazione:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/text_domanda_1"
+        app:layout_constraintTop_toBottomOf="@+id/text_domanda_1" />
+
+
+    <Spinner
+        android:id="@+id/spinnernazionalità_from_row"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:outlineAmbientShadowColor="@android:color/white"
+        android:outlineSpotShadowColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/text_domanda_2"
+        app:layout_constraintEnd_toEndOf="@+id/universitàospitante_form_row"
+        app:layout_constraintStart_toEndOf="@+id/text_domanda_2"
+        app:layout_constraintTop_toBottomOf="@+id/universitàospitante_form_row" />
+
+
+    <TextView
+        android:id="@+id/text_domanda_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:textColor="@android:color/black"
+        android:text="Facoltà:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/text_domanda_2"
+        app:layout_constraintTop_toBottomOf="@+id/text_domanda_2" />
+
+
+    <TextView
+        android:id="@+id/text_domanda_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:text="Mesi di permanenza: "
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/text_domanda_3"
+        app:layout_constraintTop_toBottomOf="@+id/text_domanda_3" />
+
+    <EditText
+        android:id="@+id/mesipermanenza_form_row"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:inputType="number"
+        android:textSize="14sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/text_domanda_4"
+        app:layout_constraintEnd_toEndOf="@+id/facoltà_form_row"
+        app:layout_constraintStart_toEndOf="@+id/text_domanda_4"
+        app:layout_constraintTop_toBottomOf="@+id/facoltà_form_row"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <TextView
+        android:id="@+id/text_domanda_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:textColor="@android:color/black"
+        android:text="Università di partenza:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/text_domanda_4"
+        app:layout_constraintTop_toBottomOf="@+id/text_domanda_4" />
+
+
+    <EditText
+        android:id="@+id/universitàpartenza_form_row"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:gravity="center"
+        android:hint="University Name"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_domanda_5"
+        app:layout_constraintEnd_toEndOf="@+id/universitàospitante_form_row"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/text_domanda_5"
+        app:layout_constraintTop_toBottomOf="@+id/mesipermanenza_form_row" />
+
+    <TextView
+        android:id="@+id/text_domanda_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:text="Note:"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/text_domanda_5"
+        app:layout_constraintTop_toBottomOf="@+id/text_domanda_5" />
+
+    <EditText
+        android:id="@+id/note_form_row"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:gravity="center"
+        android:hint="- Esami sostenuti in Erasmus / Corrispondenza\n- Dove hai alloggiato \n- Note personali / consigli"
+        android:maxWidth="375dp"
+        android:maxHeight="200dp"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_domanda_6"
+        app:layout_constraintTop_toBottomOf="@+id/text_domanda_6" />
+
+
+    <Button
+        android:id="@+id/button_form_row"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:text="Entra in famiglia"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/note_form_row"
+        app:layout_constraintStart_toStartOf="@+id/note_form_row"
+        app:layout_constraintTop_toBottomOf="@+id/note_form_row" />
+
+    <EditText
+        android:id="@+id/facoltà_form_row"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:gravity="center"
+        android:hint="Faculty Name"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_domanda_3"
+        app:layout_constraintEnd_toEndOf="@+id/spinnernazionalità_from_row"
+        app:layout_constraintStart_toEndOf="@+id/text_domanda_3"
+        app:layout_constraintTop_toBottomOf="@+id/spinnernazionalità_from_row" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
