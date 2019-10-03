@@ -20,14 +20,7 @@ android:layout_marginBottom="12dp">
     app:layout_constraintStart_toEndOf="@+id/imageview_to_row"
     app:layout_constraintTop_toTopOf="@+id/imageview_to_row" />
 
-    <!--
-    android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
 
-        app:layout_constraintStart_toEndOf
-        app:layout_constraintTop_toTopOf
-
-    -->
 
 
 <de.hdodenhof.circleimageview.CircleImageView
@@ -43,14 +36,7 @@ android:layout_marginBottom="12dp">
     app:layout_constraintTop_toTopOf="parent"
     app:srcCompat="@android:drawable/btn_star_big_on" />
 
-    <!--
-    android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-    -->
 
 
 

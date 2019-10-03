@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Social.FormLogActivity
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.view.ChatFromItem
@@ -37,11 +38,12 @@ class ChatLogActivity : AppCompatActivity() {
 
         recyclerview_chat_log.adapter = adapter
 
-        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        //toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+
+        toUser = intent.getParcelableExtra<User>(FormLogActivity.USER_KEY)
 
         supportActionBar?.title = toUser?.name+" "+toUser?.surname
 
-//    setupDummyData()
         listenForMessages()
 
         send_buttom_chat_log.setOnClickListener {
@@ -98,13 +100,16 @@ class ChatLogActivity : AppCompatActivity() {
     private fun performSendMessage() {
         val text = edittext_chat_log.text.toString()
 
+        if(text.isEmpty() ) return
+
+
+
         val fromId = FirebaseAuth.getInstance().uid
         val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         val toId = user.uid
 
         if (fromId == null) return
 
-        //val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
 
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 

@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">ErasmusFamily</string>
+
+
+    <string-array name="Nazionalità_UE">
+        <item>Austria</item>
+        <item>Belgio</item>
+        <item>Bulgaria</item>
+        <item>Cechia</item>
+        <item>Cipro</item>
+        <item>Croazia</item>
+        <item>Danimarca</item>
+        <item>Estonia</item>
+        <item>Finlandia</item>
+        <item>Francia</item>
+        <item>Germania</item>
+        <item>Grecia</item>
+        <item>Irlanda</item>
+        <item>Italia</item>
+        <item>lettonia</item>
+        <item>Lituania</item>
+        <item>Lussemburgo</item>
+        <item>Malta</item>
+        <item>Paesi Bassi</item>
+        <item>Polonia</item>
+        <item>Portogallo</item>
+        <item>Regno Unito</item>
+        <item>Romania</item>
+        <item>Slovacchia</item>
+        <item>Slovenia</item>
+        <item>Spagna</item>
+        <item>Svezia</item>
+        <item>Ungheria</item>
+    </string-array>
 </resources>

@@ -12,14 +12,22 @@ import kotlinx.android.synthetic.main.activity_register.*
 import android.util.Log.d
 import android.widget.Toast
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Social.FormActivity
+import com.example.erasmusfamily.Social.FormLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
+import com.example.erasmusfamily.messages.NewMessageActivity
 import com.example.erasmusfamily.models.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class RegisterActivity: AppCompatActivity(){
+
+    companion object{
+        val NAME_KEY = "NAME_KEY"
+    }
 
     private val mAuth: FirebaseAuth? = null
 
@@ -161,17 +169,27 @@ class RegisterActivity: AppCompatActivity(){
             password_signin.text.toString(),
             profileImageUrl,
             andrà,
-            andato
+            andato,
+            ArrayList<User>()
         )
 
         ref.setValue(user)
             .addOnSuccessListener {
-                Toast.makeText(this, "Account creato con successo", Toast.LENGTH_SHORT).show()
                 d("RegisterActivity", "Saved the user to Firebase Database")
 
-                val intent = Intent(this, MessagesActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                if(andato){
+
+                    intent.putExtra(NAME_KEY, name_signin.text.toString()+" "+surname_signin.text.toString())
+
+                    val intent = Intent(this, FormActivity::class.java )
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(this, FormLogActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+
             }
             .addOnFailureListener{
                 Toast.makeText(this, "Qualcosa è andato storto durante la registrazione, riprova", Toast.LENGTH_SHORT).show()
