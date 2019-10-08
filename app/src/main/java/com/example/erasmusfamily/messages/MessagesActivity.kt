@@ -8,10 +8,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Social.FormLogActivity
+import com.example.erasmusfamily.Social.RequestLogActivity
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
-import com.example.erasmusfamily.registerlogin.RegisterActivity
 import com.example.erasmusfamily.view.LatestMessageRow
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -33,7 +34,7 @@ class MessagesActivity : AppCompatActivity() {
         recycleview_messages_activity.adapter = adapter
         recycleview_messages_activity.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        adapter.setOnItemClickListener{ item, view ->
+        adapter.setOnItemClickListener{ item, _ ->
             Log.d(TAG, "click user")
             val intent = Intent(this, ChatLogActivity::class.java)
 
@@ -116,13 +117,21 @@ class MessagesActivity : AppCompatActivity() {
         }
     }
 
+    //Menu
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.menu_new_message -> {
-                val intent = Intent(this, NewMessageActivity::class.java)
+
+            R.id.navigation_form -> {
+                val intent = Intent(this, FormLogActivity::class.java)
                 startActivity(intent)
             }
-            R.id.menu_sign_out -> {
+            R.id.navigation_request -> {
+                val intent = Intent(this, RequestLogActivity::class.java)
+                startActivity(intent)
+            } R.id.navigation_Setting -> {
+            //crea
+            }
+            R.id.navigation_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -134,7 +143,7 @@ class MessagesActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.nav_menu, menu)
+        menuInflater.inflate(R.menu.navigationmenu_messages, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

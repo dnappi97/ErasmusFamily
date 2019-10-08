@@ -7,26 +7,24 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
-import com.example.erasmusfamily.models.Form
+import com.example.erasmusfamily.models.Request
 import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
-import com.example.erasmusfamily.view.FormItem
+import com.example.erasmusfamily.view.RequestItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.activity_form_log.*
+import kotlinx.android.synthetic.main.activity_request_log.*
 
-class FormLogActivity : AppCompatActivity() {
-
+class RequestLogActivity: AppCompatActivity(){
     companion object{
         val USER_KEY = "USER_KEY"
     }
@@ -35,53 +33,47 @@ class FormLogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_form_log)
+        setContentView(R.layout.activity_request_log)
 
-        supportActionBar?.title ="Big Brothers"
+        supportActionBar?.title ="Little Brothers"
 
-
-
-
-
-
-
-        recycler_form_log.adapter = adapter
-        recycler_form_log.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
-        serchForm()
+        recycleview_request_log.adapter = adapter
+        recycleview_request_log.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         fetchCurrentUser()
-
         verifyUserIsLoggedIn()
 
+        searchRequest()
     }
 
+    private fun searchRequest(){
 
-
-    private fun serchForm(){
-        val ref = FirebaseDatabase.getInstance().getReference("form")
-
-
-
+        val ref = FirebaseDatabase.getInstance().getReference("request")
         ref.addChildEventListener(object : ChildEventListener{
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val form = p0.getValue(Form::class.java) ?: return
+                val request = p0.getValue(Request::class.java) ?: return
 
-                adapter.add(FormItem(form.name, form.uni_ospitante, form.nazione, form.facoltà, form.permanenza, form.uni_partenza, form.note, form.user))
+                adapter.add(RequestItem(request.name, request.title, request.text, request.user))
+
 
             }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val form = p0.getValue(Form::class.java) ?: return
-                adapter.add(FormItem(form.name, form.uni_ospitante,form.nazione,form.facoltà,form.permanenza, form.uni_partenza, form.note, form.user))
+                val request = p0.getValue(Request::class.java) ?: return
+
+                adapter.add(RequestItem(request.name, request.title, request.text, request.user))
 
             }
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                val request = p0.getValue(Request::class.java) ?: return
+
+                adapter.add(RequestItem(request.name, request.title, request.text, request.user))
 
             }
             override fun onChildRemoved(p0: DataSnapshot) {
-                val form = p0.getValue(Form::class.java) ?: return
-                adapter.add(FormItem(form.name, form.uni_ospitante,form.nazione,form.facoltà,form.permanenza, form.uni_partenza, form.note, form.user))
+                val request = p0.getValue(Request::class.java) ?: return
+
+                adapter.add(RequestItem(request.name, request.title, request.text, request.user))
 
             }
             override fun onCancelled(p0: DatabaseError) {
@@ -91,9 +83,34 @@ class FormLogActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener{ item, view ->
 
-            val formItem = item as FormItem
+            val requestItem = item as RequestItem
 
-            if(FirebaseAuth.getInstance().uid == item.user.uid) return@setOnItemClickListener
+            if(FirebaseAuth.getInstance().uid == item.user.uid){
+
+                val dialog = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.activity_elimination_request, null)
+                val textViewChat = dialogView.findViewById<TextView>(R.id.textview_elimination_request)
+                val buttonChat = dialogView.findViewById<Button>(R.id.button_elimination_request)
+                dialog.setView(dialogView)
+                dialog.setCancelable(true)
+                textViewChat.text = "Vuoi eliminare la tua domanda?"
+                buttonChat.text = "Elimina"
+                buttonChat.setOnClickListener{
+                    val uid = FirebaseAuth.getInstance().uid
+                    val ref = FirebaseDatabase.getInstance().getReference("request/$uid")
+                    ref.removeValue()
+
+                    val intent = Intent(view.context, RequestLogActivity::class.java)
+
+                    intent.putExtra(USER_KEY, requestItem.user)
+                    startActivity(intent)
+                    finish()
+                }
+
+                dialog.show()
+
+
+            }
             else {
 
                 val dialog = AlertDialog.Builder(this)
@@ -102,11 +119,11 @@ class FormLogActivity : AppCompatActivity() {
                 val buttonChat = dialogView.findViewById<Button>(R.id.buttonchat_request_chat)
                 dialog.setView(dialogView)
                 dialog.setCancelable(true)
-                textViewChat.text = "Vuoi contattare "+item.name+" ?"
+                textViewChat.text = "Vuoi rispondere alla domanda di "+item.name+" ?"
                 buttonChat.setOnClickListener{
                     val intent = Intent(view.context, ChatLogActivity::class.java)
 
-                    intent.putExtra(USER_KEY, formItem.user)
+                    intent.putExtra(USER_KEY, requestItem.user)
                     startActivity(intent)
                 }
 
@@ -117,9 +134,6 @@ class FormLogActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 
 
     private fun fetchCurrentUser() {
@@ -147,8 +161,6 @@ class FormLogActivity : AppCompatActivity() {
         }
     }
 
-
-
     //Menu
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
@@ -156,11 +168,16 @@ class FormLogActivity : AppCompatActivity() {
                 val intent = Intent(this, MessagesActivity::class.java)
                 startActivity(intent)
             }
-            R.id.navigation_request -> {
-                val intent = Intent(this, RequestLogActivity::class.java)
+            R.id.navigation_form -> {
+                val intent = Intent(this, FormLogActivity::class.java)
                 startActivity(intent)
-            } R.id.navigation_Setting -> {
-                //crea
+            }
+            R.id.navigation_Setting -> {
+            //crea
+            }
+            R.id.new_request -> {
+                val intent = Intent(this, RequestActivity::class.java)
+                startActivity(intent)
             }
             R.id.navigation_logout -> {
                 FirebaseAuth.getInstance().signOut()
@@ -174,7 +191,7 @@ class FormLogActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.navigationmenu_bigbrothers, menu)
+        menuInflater.inflate(R.menu.navigationmenu_littlebrothers, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

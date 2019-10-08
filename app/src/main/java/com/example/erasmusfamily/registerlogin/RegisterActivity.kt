@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 import android.util.Log.d
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Social.FormActivity
@@ -20,6 +22,8 @@ import com.example.erasmusfamily.models.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 
@@ -73,8 +77,6 @@ class RegisterActivity: AppCompatActivity(){
 
             selectphoto_button_register.alpha = 0f
 
-           // val bitmapDrawable = BitmapDrawable(bitmap)
-           // selectphoto_button_register.setBackgroundDrawable(bitmapDrawable)
         }
     }
 
@@ -82,35 +84,53 @@ class RegisterActivity: AppCompatActivity(){
         val email= email_signin.text.toString()
         val password= password_signin.text.toString()
 
-        if( name_signin.text.toString().isEmpty()){
+        val progressbar = findViewById<ProgressBar>(R.id.progressBar_register)
 
-            Toast.makeText(this, "Inserire il nome", Toast.LENGTH_SHORT).show()
+        if( name_signin.text.toString().isEmpty() || name_signin.text.length < 2){
+            name_signin.setError("Il campo non rispetta i paramentri di dimensione. Almeno 3 caratteri")
+            name_signin.requestFocus()
             return
         }
 
-        if( surname_signin.text.toString().isEmpty()){
+        if( surname_signin.text.toString().isEmpty() || surname_signin.text.length < 2){
 
-            Toast.makeText(this, "Inserire il cognome", Toast.LENGTH_SHORT).show()
+            surname_signin.setError("Il campo non rispetta i paramentri di dimensione. Almeno 3 caratteri")
+            surname_signin.requestFocus()
             return
         }
 
-        if( email.isEmpty() || password.isEmpty()){
+        if(password.isEmpty() || isValidPassword(password) || password.length < 8){
+            password_signin.setError("La password deve comntenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.")
+            password_signin.requestFocus()
+            return
+        }
 
-            Toast.makeText(this, "Email e password non possono essere vuoti", Toast.LENGTH_SHORT).show()
+        if( email.isEmpty() || isValidEmail(email)){
+            email_signin.setError("La mail deve essere verificata, inserirne una veritiera")
+            email_signin.requestFocus()
             return
         }
 
         if( radioGroup_signin.checkedRadioButtonId == -1){
+            radioGroup_signin.requestFocus()
             Toast.makeText(this, "Nessuna selezione effettuata, si prega di selezionare un'opzione", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if(selectedPhotoUri == null) {
+            Toast.makeText(this, "Inserisci un'immagine profilo.", Toast.LENGTH_LONG).show()
             return
         }
 
         d("MainActivity", "Email is: " + email)
         d("MainActivity", "Password: $password")
 
+        progressbar.visibility = View.VISIBLE
+
         //Firebase authentication to create a user with email and password
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
+                progressbar.visibility = View.GONE
                 if(!it.isSuccessful) return@addOnCompleteListener
 
                 //else if successful
@@ -120,13 +140,12 @@ class RegisterActivity: AppCompatActivity(){
             }
             .addOnFailureListener{
                 Log.d("Main", "Failed to create user: ${it.message}")
+                progressbar.visibility = View.GONE
                 Toast.makeText(this, "\"Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun uploadImageToFirbaseStorage(){
-
-        if(selectedPhotoUri == null) return
 
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
@@ -195,6 +214,29 @@ class RegisterActivity: AppCompatActivity(){
                 Toast.makeText(this, "Qualcosa è andato storto durante la registrazione, riprova", Toast.LENGTH_SHORT).show()
                 return@addOnFailureListener
             }
+    }
+
+
+    protected fun isValidPassword(password: String): Boolean {
+
+        val pattern: Pattern
+        val matcher: Matcher
+        val Password_Pattern = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])(?=\\S*?[@#\$%^&+=])\\S{8,20}\\z"
+        pattern = Pattern.compile(Password_Pattern)
+        matcher = pattern.matcher(password)
+
+        return matcher.matches()
+
+    }
+
+    protected fun isValidEmail(email: String): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val Email_Pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}\$/"
+        pattern = Pattern.compile(Email_Pattern)
+        matcher = pattern.matcher(email)
+
+        return matcher.matches()
     }
 }
 

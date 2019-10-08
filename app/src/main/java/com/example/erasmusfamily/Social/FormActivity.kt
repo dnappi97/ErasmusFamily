@@ -8,21 +8,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.erasmusfamily.R
-import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
-import com.example.erasmusfamily.messages.NewMessageActivity
-import com.example.erasmusfamily.messages.UserItem
 import com.example.erasmusfamily.models.Form
 import com.example.erasmusfamily.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_form_compile.*
-import kotlinx.android.synthetic.main.activity_new_message.*
 
 class FormActivity: AppCompatActivity(){
 
@@ -84,14 +77,39 @@ class FormActivity: AppCompatActivity(){
          uni_partenza = universitàpartenza_form_row.text.toString()
          note = note_form_row.text.toString()
 
+        if(uni_ospitante.isEmpty() || uni_ospitante.length < 3){
+            universitàospitante_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+            universitàospitante_form_row.requestFocus()
+            return
+        }
 
+        if(facoltà.isEmpty() || facoltà.length < 3){
+            facoltà_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+            facoltà_form_row.requestFocus()
+            return
+        }
+
+        if(permanenza.toString().isEmpty() || permanenza.toString().length > 2 || permanenza > 12 || permanenza < 1){
+            mesipermanenza_form_row.setError("Il campo non rispetta i paramentri di dimensione. I mesi devono essere compresi tra 1 e 12")
+            mesipermanenza_form_row.requestFocus()
+            return
+        }
+
+        if(uni_partenza.isEmpty() || uni_partenza.length < 3){
+            universitàpartenza_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+            universitàpartenza_form_row.requestFocus()
+            return
+        }
+
+        if(note.isEmpty() || note.length < 20){
+            note_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 20 caratteri")
+            note_form_row.requestFocus()
+            return
+        }
 
 
         //firebase
         val uid = FirebaseAuth.getInstance().uid
-
-
-
         val ref = FirebaseDatabase.getInstance().getReference("form/$uid")
 
 

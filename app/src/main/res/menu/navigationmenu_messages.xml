@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group>
+
+        <item
+            android:id="@+id/navigation_form"
+            android:icon="@drawable/ic_bigbrothers"
+            android:title="BigBrothers" />
+
+        <item
+            android:id="@+id/navigation_request"
+            android:title="LittleBrothers"
+            android:icon="@drawable/ic_littlebrothers"/>
+
+        <item
+            android:id="@+id/navigation_message"
+            android:icon="@drawable/ic_chat"
+            android:title="Message"
+            app:showAsAction="always"/>
+
+    </group>
+
+
+
+
+    <item
+        android:id="@+id/navigation_Setting"
+        android:title="Setting"
+        android:icon="@drawable/ic_settings"/>
+
+    <item
+        android:id="@+id/navigation_logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_logout"/>
+
+
+
+</menu>
