@@ -5,6 +5,7 @@ import com.example.erasmusfamily.models.User
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_form_item.view.*
+import kotlin.time.seconds
 
 class FormItem(val name: String, val uni_ospitante: String, val nazionalità: String, val facoltà: String, val permanenza: Int, val uni_partenza: String, val note: String, val user: User):
     Item<ViewHolder>(){

@@ -178,12 +178,12 @@
 
     <Button
         android:id="@+id/button_form_row"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"
-        android:text="Entra in famiglia"
         android:gravity="center"
+        android:text="Entra in famiglia"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/note_form_row"
         app:layout_constraintStart_toStartOf="@+id/note_form_row"
