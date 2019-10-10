@@ -1,5 +1,6 @@
 package com.example.erasmusfamily.Social
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
@@ -27,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_form_log.*
 
 class FormLogActivity : AppCompatActivity() {
 
+
     companion object{
         val USER_KEY = "USER_KEY"
     }
@@ -42,9 +46,6 @@ class FormLogActivity : AppCompatActivity() {
 
 
 
-
-
-
         recycler_form_log.adapter = adapter
         recycler_form_log.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
@@ -55,6 +56,8 @@ class FormLogActivity : AppCompatActivity() {
         verifyUserIsLoggedIn()
 
     }
+
+
 
 
 

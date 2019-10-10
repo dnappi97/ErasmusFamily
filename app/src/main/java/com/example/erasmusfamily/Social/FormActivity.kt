@@ -39,6 +39,8 @@ class FormActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_compile)
 
+        supportActionBar?.title ="Diventa un Big Brothers!"
+
         //Settings spinner
         var spin: Spinner = findViewById(R.id.spinnernazionalità_from_row) as Spinner
         var aa: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_spinner_item, list_of_nationalities)
@@ -119,6 +121,10 @@ class FormActivity: AppCompatActivity(){
             )
         }
         ref.setValue(form).addOnSuccessListener {
+
+            val refUs = FirebaseDatabase.getInstance().getReference("/users/$uid")
+            currentUser!!.first= false
+            refUs.setValue(currentUser)
 
             val intent = Intent(this, FormLogActivity::class.java )
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)

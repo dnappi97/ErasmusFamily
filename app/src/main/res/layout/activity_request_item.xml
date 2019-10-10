@@ -23,11 +23,14 @@
         android:id="@+id/namestudent_request_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:gravity="start"
         android:text="Student Name"
-        android:gravity="center"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,8 +44,9 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/namestudent_request_item"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/titlerequest_request_item" />
 
     <TextView
         android:id="@+id/textrequest_request_item"
@@ -50,7 +54,10 @@
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
         android:text="Text Request"
+        android:textColor="@android:color/black"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="@+id/textView13"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -58,22 +65,23 @@
         android:id="@+id/textView15"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Titolo:"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/namestudent_request_item"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="@+id/titlerequest_request_item" />
 
     <TextView
         android:id="@+id/titlerequest_request_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="start"
         android:text="Request Title"
-        android:gravity="center"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/namestudent_request_item"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/namestudent_request_item"
         app:layout_constraintTop_toBottomOf="@+id/namestudent_request_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,31 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity android:name=".Social.FormLogActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
-        <activity android:name=".Social.FormActivity">
-
-
-        </activity>
+        <activity android:name=".Social.FormActivity" />
         <activity android:name=".Social.RequestActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Social.RequestLogActivity" />
-
-
         </activity>
-        <activity android:name=".Social.RequestLogActivity">
-
-
-        </activity>
+        <activity android:name=".Social.RequestLogActivity" />
         <activity android:name=".messages.ChatLogActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -47,15 +37,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".messages.MessagesActivity" />
         </activity>
-        <activity android:name=".messages.MessagesActivity">
-
-        </activity>
-        <activity android:name=".registerlogin.MainActivity">
-
-        </activity>
-        <activity android:name=".registerlogin.RegisterActivity" >
-
-        </activity>
+        <activity android:name=".messages.MessagesActivity" />
+        <activity android:name=".registerlogin.MainActivity" />
+        <activity android:name=".registerlogin.RegisterActivity" />
     </application>
 
 </manifest>

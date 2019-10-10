@@ -39,6 +39,8 @@ class RegisterActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        supportActionBar?.title ="Registrazione"
+
         registrati_signin.setOnClickListener{
             performRegister()
         }
@@ -57,6 +59,10 @@ class RegisterActivity: AppCompatActivity(){
             val intent=Intent(Intent.ACTION_PICK)
             intent.type="image/*"
             startActivityForResult(intent, 0)
+        }
+
+        verificationemail_signin.setOnClickListener{
+            sendEmailVerification()
         }
     }
 
@@ -131,6 +137,7 @@ class RegisterActivity: AppCompatActivity(){
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
                 progressbar.visibility = View.GONE
+
                 if(!it.isSuccessful) return@addOnCompleteListener
 
                 //else if successful
@@ -143,9 +150,39 @@ class RegisterActivity: AppCompatActivity(){
                 progressbar.visibility = View.GONE
                 Toast.makeText(this, "\"Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
             }
+
+
+
+
     }
 
-    private fun uploadImageToFirbaseStorage(){
+    private fun sendEmailVerification(){
+        val user = FirebaseAuth.getInstance().currentUser
+        if( user != null ){
+            val email= email_signin.text.toString()
+            if(!email.isEmpty()){
+
+                user.sendEmailVerification().addOnSuccessListener {
+                    Toast.makeText(this, "Verifica la tua email per completare la registrazione", Toast.LENGTH_LONG).show()
+                    FirebaseAuth.getInstance().signOut()
+
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+
+            } else {
+                Toast.makeText(this, "Campo 'email' vuoto, impossibile verificare la email", Toast.LENGTH_LONG).show()
+                email_signin.setError("Inserire una email per verificarla")
+                email_signin.requestFocus()
+            }
+
+        } else {
+            Toast.makeText(this, "Devi prima procedere con la registrazione", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun uploadImageToFirbaseStorage() {
 
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
@@ -181,6 +218,7 @@ class RegisterActivity: AppCompatActivity(){
 
 
         val user = User(
+            true,
             uid,
             name_signin.text.toString(),
             surname_signin.text.toString(),
@@ -196,19 +234,10 @@ class RegisterActivity: AppCompatActivity(){
             .addOnSuccessListener {
                 d("RegisterActivity", "Saved the user to Firebase Database")
 
-                if(andato){
-
-                    intent.putExtra(NAME_KEY, name_signin.text.toString()+" "+surname_signin.text.toString())
-
-                    val intent = Intent(this, FormActivity::class.java )
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                } else {
-                    val intent = Intent(this, FormLogActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-
+                Toast.makeText(this, "Clicca su 'Verifica Email' per completare la registrazione", Toast.LENGTH_LONG).show()
+                scrollview_registration.fullScroll(View.FOCUS_DOWN)
+                verificationemail_signin.setError("Clicca qui!")
+                verificationemail_signin.requestFocus()
             }
             .addOnFailureListener{
                 Toast.makeText(this, "Qualcosa è andato storto durante la registrazione, riprova", Toast.LENGTH_SHORT).show()

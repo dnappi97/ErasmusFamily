@@ -33,6 +33,8 @@ class RequestActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_compile)
 
+        supportActionBar?.title ="Fai una domanda!"
+
         fetchCurrentUser()
 
         buttonrequest_request_copile.setOnClickListener {

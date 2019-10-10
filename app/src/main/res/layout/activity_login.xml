@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".registerlogin.RegisterActivity">
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="@drawable/ic_planet_earth"
+        app:layout_constraintBottom_toTopOf="@+id/email_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/email_login"
@@ -14,18 +23,18 @@
         android:layout_height="40dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="208dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/rounded_edittext_register_login"
         android:ems="10"
         android:hint="Enter email"
         android:inputType="textEmailAddress"
-        android:paddingLeft="16dp"
         android:maxHeight="25dp"
-        android:maxLength="18"
+        android:maxLength="25"
+        android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +49,7 @@
         android:inputType="textPassword"
         android:paddingLeft="16dp"
         android:maxHeight="25dp"
-        android:maxLength="18"
+        android:maxLength="25"
         app:layout_constraintEnd_toEndOf="@+id/email_login"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/email_login"
@@ -61,17 +70,18 @@
 
     <TextView
         android:id="@+id/no_account_login"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="264dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="18dp"
         android:gravity="center"
         android:text="Non hai un'account? Registrati!"
+        android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/button_login"
-        app:layout_constraintStart_toStartOf="@+id/button_login"
-        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+        app:layout_constraintEnd_toEndOf="@+id/passworddimenticata_login"
+        app:layout_constraintStart_toStartOf="@+id/passworddimenticata_login"
+        app:layout_constraintTop_toBottomOf="@+id/passworddimenticata_login" />
 
     <ProgressBar
         android:id="@+id/progressBar_login"
@@ -84,6 +94,17 @@
         app:layout_constraintStart_toStartOf="@+id/button_login"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38" />
+
+    <TextView
+        android:id="@+id/passworddimenticata_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password dimenticata? Clicca qui"
+        android:textColor="@android:color/black"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="@+id/button_login"
+        app:layout_constraintStart_toStartOf="@+id/button_login"
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

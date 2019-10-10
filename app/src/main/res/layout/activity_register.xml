@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0FFFF"
-    android:orientation="vertical">
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:id="@+id/scrollview_registration">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="8dp"
-            android:drawableTop="@drawable/ic_photo_camera"
+            android:drawableTop="@drawable/ic_add_a_photo"
             android:background="@drawable/rounded_button_style"
             android:gravity="center"
             android:text="SELECT PHOTO"
@@ -39,7 +40,7 @@
             android:background="@drawable/rounded_edittext_register_login"
             android:ems="10"
             android:hint="Name"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:paddingLeft="16dp"
             android:maxHeight="25dp"
             android:maxLength="18"
@@ -56,7 +57,7 @@
             android:background="@drawable/rounded_edittext_register_login"
             android:ems="10"
             android:hint="Surname"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:paddingLeft="16dp"
             android:maxHeight="25dp"
             android:maxLength="18"
@@ -139,6 +140,18 @@
             app:layout_constraintEnd_toEndOf="@+id/radioGroup_signin"
             app:layout_constraintStart_toStartOf="@+id/radioGroup_signin"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup_signin" />
+
+        <Button
+            android:id="@+id/verificationemail_signin"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="Verifica Email"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/account_signin"
+            app:layout_constraintStart_toStartOf="@+id/account_signin"
+            app:layout_constraintTop_toBottomOf="@+id/account_signin" />
 
         <TextView
             android:id="@+id/account_signin"

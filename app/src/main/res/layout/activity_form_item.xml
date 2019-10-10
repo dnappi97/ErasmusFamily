@@ -15,7 +15,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="Name of university"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/namestudent_form_item"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/namestudent_form_item" />
 
@@ -23,19 +25,19 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Università ospitante:"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/uniospitante_form_item" />
 
     <TextView
         android:id="@+id/nazione_form_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:text="Nazione"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/uniospitante_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/uniospitante_form_item"
@@ -51,13 +53,15 @@
         app:layout_constraintEnd_toStartOf="@+id/nazione_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toTopOf="@+id/facoltà_form_item" />
 
     <TextView
         android:id="@+id/facoltà_form_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="facoltà"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/nazione_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/nazione_form_item"
@@ -73,13 +77,15 @@
         app:layout_constraintEnd_toStartOf="@+id/facoltà_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/permanenza_form_item" />
 
     <TextView
         android:id="@+id/permanenza_form_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="mesi di permanenza"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/facoltà_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/facoltà_form_item"
@@ -95,13 +101,15 @@
         app:layout_constraintEnd_toStartOf="@+id/permanenza_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toTopOf="@+id/unipartenza_form_item" />
 
     <TextView
         android:id="@+id/unipartenza_form_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Name of university"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/permanenza_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/permanenza_form_item"
@@ -111,6 +119,7 @@
         android:id="@+id/textView12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Note:"
         android:textColor="@android:color/black"
         android:textStyle="bold"
@@ -123,8 +132,10 @@
         android:id="@+id/note_form_item"
         android:layout_width="0dp"
         android:layout_height="200dp"
+        android:layout_marginTop="8dp"
         android:maxWidth="400dp"
         android:text="Note.."
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="@+id/unipartenza_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView12"
@@ -134,14 +145,13 @@
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:text="Nazione:"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/uniospitante_form_item"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="@+id/nazione_form_item" />
 
     <TextView
         android:id="@+id/textView"
@@ -166,6 +176,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Student name"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
