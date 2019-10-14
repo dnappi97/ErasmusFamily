@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Setting.SettingActivity
 import com.example.erasmusfamily.Social.FormActivity
 import com.example.erasmusfamily.Social.FormLogActivity
 import com.example.erasmusfamily.Social.RequestLogActivity
@@ -65,35 +66,41 @@ class MessagesActivity : AppCompatActivity() {
         if(currentUser == null ){
             Toast.makeText(this, "Ops, si è verificato un problema. Riprova ad effettuare l'accesso", Toast.LENGTH_LONG).show()
             FirebaseAuth.getInstance().signOut()
-        }
+
+            val intent = Intent(this, MainActivity::class.java )
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        } else {
+            if(currentUser!!.first){
+                val name = currentUser!!.name+" "+ currentUser!!.surname
+
+                if(currentUser!!.andato){
 
 
-        if(currentUser!!.first){
-            val name = currentUser!!.name+" "+ currentUser!!.surname
 
-            if(currentUser!!.andato){
+                    intent.putExtra(NAME_KEY, name)
 
+                    Toast.makeText(this, "Benvenuto "+name+", compila questo form in modo da aiutare altri ragazzi in questa esperienza!", Toast.LENGTH_LONG).show()
 
+                    val intent = Intent(this, FormActivity::class.java )
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                } else {
 
-                intent.putExtra(NAME_KEY, name)
+                    currentUser!!.first= false
+                    ref.setValue(currentUser)
 
-                Toast.makeText(this, "Benvenuto "+name+", compila questo form in modo da aiutare altri ragazzi in questa esperienza!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Benvenuto "+name+", dai un'occhiata e contatta qualcuno se può esserti utile!", Toast.LENGTH_LONG).show()
 
-                val intent = Intent(this, FormActivity::class.java )
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            } else {
-
-                currentUser!!.first= false
-                ref.setValue(currentUser)
-
-                Toast.makeText(this, "Benvenuto "+name+", dai un'occhiata e contatta qualcuno se può esserti utile!", Toast.LENGTH_LONG).show()
-
-                val intent = Intent(this, FormLogActivity::class.java )
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                    val intent = Intent(this, FormLogActivity::class.java )
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
             }
         }
+
+
+
     }
 
     val latestMessagesMap = HashMap<String, ChatMessage>()
@@ -172,7 +179,8 @@ class MessagesActivity : AppCompatActivity() {
                 val intent = Intent(this, RequestLogActivity::class.java)
                 startActivity(intent)
             } R.id.navigation_Setting -> {
-            //crea
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
             }
             R.id.navigation_logout -> {
                 FirebaseAuth.getInstance().signOut()

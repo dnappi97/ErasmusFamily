@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat
 
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Setting.SettingActivity
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
 import com.example.erasmusfamily.models.Form
@@ -163,7 +164,8 @@ class FormLogActivity : AppCompatActivity() {
                 val intent = Intent(this, RequestLogActivity::class.java)
                 startActivity(intent)
             } R.id.navigation_Setting -> {
-                //crea
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
             }
             R.id.navigation_logout -> {
                 FirebaseAuth.getInstance().signOut()

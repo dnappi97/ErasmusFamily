@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Setting.SettingActivity
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
 import com.example.erasmusfamily.models.Request
@@ -97,8 +98,8 @@ class RequestLogActivity: AppCompatActivity(){
                 buttonChat.text = "Elimina"
                 buttonChat.setOnClickListener{
                     val uid = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("request/$uid")
-                    ref.removeValue()
+                    val refReq = FirebaseDatabase.getInstance().getReference("request/$uid")
+                    refReq.removeValue()
 
                     val intent = Intent(view.context, RequestLogActivity::class.java)
 
@@ -173,7 +174,8 @@ class RequestLogActivity: AppCompatActivity(){
                 startActivity(intent)
             }
             R.id.navigation_Setting -> {
-            //crea
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
             }
             R.id.new_request -> {
                 val intent = Intent(this, RequestActivity::class.java)

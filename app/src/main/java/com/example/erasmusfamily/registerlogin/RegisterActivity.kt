@@ -106,7 +106,7 @@ class RegisterActivity: AppCompatActivity(){
         }
 
         if(password.isEmpty() || isValidPassword(password) || password.length < 8){
-            password_signin.setError("La password deve comntenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.")
+            password_signin.setError("La password deve contenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.")
             password_signin.requestFocus()
             return
         }

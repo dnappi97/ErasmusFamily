@@ -15,24 +15,4 @@ class User(var first: Boolean, val uid: String, val name: String, val surname: S
 }
 
 
-fun  User.searchUsers( uid: String): ArrayList<User> {
-    val users = ArrayList<User>()
-    val ref = FirebaseDatabase.getInstance().getReference("/users")
-    ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
-        override fun onDataChange(p0: DataSnapshot) {
-            p0.children.forEach{
-                Log.d("NewMessage", it.toString())
-                val user = it.getValue(User::class.java)
-                if(user != null){
-                    users.add(user)
-                }
-            }
-        }
-        override fun onCancelled(p0: DatabaseError) {
-
-        }
-    })
-
-    return users
-}
