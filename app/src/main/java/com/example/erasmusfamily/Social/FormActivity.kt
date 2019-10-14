@@ -21,6 +21,7 @@ class FormActivity: AppCompatActivity(){
 
     companion object {
         var currentUser: User? = null
+        var currentForm: Form?  = null
     }
 
     private var list_of_nationalities= arrayOf("Austria", "Belgio", "Bulgaria", "Cechia", "Cipro", "Croazia", "Danimarca", " Estonia",
@@ -64,9 +65,36 @@ class FormActivity: AppCompatActivity(){
         }
 
         fetchCurrentUser()
+        fetchCurrentForm()
 
         button_form_row.setOnClickListener{
             addForm()
+        }
+    }
+
+    private fun fetchCurrentForm(){
+        val uid = FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("form/$uid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                currentForm = p0.getValue(Form::class.java)
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
+        if( currentForm != null ){
+
+            universitàospitante_form_row.setText(currentForm?.uni_ospitante)
+            facoltà_form_row.setText(currentForm?.facoltà)
+            mesipermanenza_form_row.setText(currentForm?.permanenza.toString())
+            universitàpartenza_form_row.setText(currentForm?.uni_partenza)
+            note_form_row.setText(currentForm?.note)
+
         }
     }
 

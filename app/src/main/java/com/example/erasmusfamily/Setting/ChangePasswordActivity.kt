@@ -86,7 +86,7 @@ class ChangePasswordActivity : AppCompatActivity(){
 
                                 Toast.makeText(
                                     this,
-                                    "Ops. Qualcosa è andato storto, assicurati di aver scritto tutte le informazioni corrette e riprova.",
+                                    "Assicurati di aver scritto la tua password corrente correttamente",
                                     Toast.LENGTH_LONG
                                 ).show()
 

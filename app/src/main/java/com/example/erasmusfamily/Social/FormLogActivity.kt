@@ -97,7 +97,29 @@ class FormLogActivity : AppCompatActivity() {
 
             val formItem = item as FormItem
 
-            if(FirebaseAuth.getInstance().uid == item.user.uid) return@setOnItemClickListener
+            if(FirebaseAuth.getInstance().uid == item.user.uid) {
+
+                val dialog = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.activity_request_chat, null)
+                val textViewChat = dialogView.findViewById<TextView>(R.id.chatrequest_textview_request_chat)
+                val buttonChat = dialogView.findViewById<Button>(R.id.buttonchat_request_chat)
+                dialog.setView(dialogView)
+                dialog.setCancelable(true)
+                textViewChat.text = "Vuoi effettuare una modifica?"
+                buttonChat.text = "MODIFICA"
+                buttonChat.setOnClickListener{
+                    val intent = Intent(view.context, FormActivity::class.java)
+
+                    intent.putExtra(USER_KEY, formItem.user)
+                    startActivity(intent)
+                }
+
+
+
+                dialog.show()
+
+
+            }
             else {
 
                 val dialog = AlertDialog.Builder(this)
