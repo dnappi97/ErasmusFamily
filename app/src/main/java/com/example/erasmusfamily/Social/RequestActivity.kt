@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
+import com.example.erasmusfamily.models.Form
 import com.example.erasmusfamily.models.Request
 import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
@@ -21,12 +23,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_form_compile.*
 import kotlinx.android.synthetic.main.activity_request_compile.*
 
 class RequestActivity: AppCompatActivity(){
 
     companion object {
-        var currentUser: User? = null
+        var currentRequest: Request?  = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +38,38 @@ class RequestActivity: AppCompatActivity(){
 
         supportActionBar?.title ="Fai una domanda!"
 
-        fetchCurrentUser()
-
         buttonrequest_request_copile.setOnClickListener {
             addRequest()
         }
 
 
+        fetchRequest()
+    }
+
+    private fun fetchRequest(){
+        val uid = FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("request/$uid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                currentRequest = p0.getValue(Request::class.java)
+
+                if( currentRequest != null ){
+
+                    rquesttitle_request_compile.setText(currentRequest?.title.toString())
+                    textrequest_rquest_compile.setText(currentRequest?.text.toString())
+
+
+                    buttonrequest_request_copile.setText("MODIFICA")
+
+                }
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
 
     private fun addRequest(){
@@ -66,8 +94,8 @@ class RequestActivity: AppCompatActivity(){
         val uid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("request/$uid")
 
-        val request = currentUser?.let {
-            Request(currentUser?.name+" "+ currentUser?.surname,titleRequest, textRequest, it)
+        val request = MainActivity.currentUser?.let {
+            Request(MainActivity.currentUser?.name+" "+ MainActivity.currentUser?.surname,titleRequest, textRequest, it)
         }
         ref.setValue(request).addOnSuccessListener {
            val intent = Intent(this, RequestLogActivity::class.java )
@@ -79,22 +107,12 @@ class RequestActivity: AppCompatActivity(){
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
 
-    private fun fetchCurrentUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+        val intent = Intent(this, RequestLogActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
 
-            override fun onDataChange(p0: DataSnapshot) {
-                currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current user ${MessagesActivity.currentUser?.profileImageUrl}")
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
     }
-
-
 }

@@ -44,18 +44,12 @@ class FormLogActivity : AppCompatActivity() {
 
         supportActionBar?.title ="Big Brothers"
 
-
-
-
         recycler_form_log.adapter = adapter
         recycler_form_log.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         serchForm()
 
-        fetchCurrentUser()
-
         verifyUserIsLoggedIn()
-
     }
 
 
@@ -64,9 +58,6 @@ class FormLogActivity : AppCompatActivity() {
 
     private fun serchForm(){
         val ref = FirebaseDatabase.getInstance().getReference("form")
-
-
-
         ref.addChildEventListener(object : ChildEventListener{
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -84,8 +75,6 @@ class FormLogActivity : AppCompatActivity() {
 
             }
             override fun onChildRemoved(p0: DataSnapshot) {
-                val form = p0.getValue(Form::class.java) ?: return
-                adapter.add(FormItem(form.name, form.uni_ospitante,form.nazione,form.facoltà,form.permanenza, form.uni_partenza, form.note, form.user))
 
             }
             override fun onCancelled(p0: DatabaseError) {
@@ -112,6 +101,7 @@ class FormLogActivity : AppCompatActivity() {
 
                     intent.putExtra(USER_KEY, formItem.user)
                     startActivity(intent)
+
                 }
 
 
@@ -145,27 +135,9 @@ class FormLogActivity : AppCompatActivity() {
     }
 
 
-
-
-
-    private fun fetchCurrentUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-                MessagesActivity.currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current user ${MessagesActivity.currentUser?.profileImageUrl}")
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
-    }
-
     private fun verifyUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
+        println("First: "+MainActivity.currentUser?.first)
         if (uid == null) {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -195,6 +167,7 @@ class FormLogActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
+
         }
 
         return super.onOptionsItemSelected(item)
@@ -204,6 +177,5 @@ class FormLogActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.navigationmenu_bigbrothers, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
 
 }

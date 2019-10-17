@@ -72,7 +72,7 @@
         android:id="@+id/no_account_login"
         android:layout_width="264dp"
         android:layout_height="68dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Non hai un'account? Registrati!"
         android:textAllCaps="false"
@@ -80,8 +80,9 @@
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/passworddimenticata_login"
+        app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="@+id/passworddimenticata_login"
-        app:layout_constraintTop_toBottomOf="@+id/passworddimenticata_login" />
+        app:layout_constraintTop_toBottomOf="@+id/ricordacredenziali_login" />
 
     <ProgressBar
         android:id="@+id/progressBar_login"
@@ -105,6 +106,16 @@
         app:layout_constraintEnd_toEndOf="@+id/button_login"
         app:layout_constraintStart_toStartOf="@+id/button_login"
         app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
+    <CheckBox
+        android:id="@+id/ricordacredenziali_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Ricorda credenziali d'accesso"
+        app:layout_constraintEnd_toEndOf="@+id/passworddimenticata_login"
+        app:layout_constraintStart_toStartOf="@+id/passworddimenticata_login"
+        app:layout_constraintTop_toBottomOf="@+id/passworddimenticata_login" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

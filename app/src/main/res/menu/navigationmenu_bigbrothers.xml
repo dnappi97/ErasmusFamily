@@ -5,6 +5,13 @@
 
     <group>
 
+<!--        <item-->
+<!--            android:id="@+id/search_form"-->
+<!--            android:icon="@drawable/ic_search_black"-->
+<!--            android:title="Search"-->
+<!--            app:showAsAction="always"-->
+<!--            app:actionViewClass="android.appcompat.widge.SearchView" />-->
+
         <item
             android:id="@+id/navigation_form"
             android:icon="@drawable/ic_bigbrothers"

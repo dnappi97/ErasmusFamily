@@ -10,44 +10,76 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Setting.ChangePasswordActivity">
+        <activity
+            android:name=".Setting.ChangePasswordActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Setting.SettingActivity" />
         </activity>
 
-        <activity android:name=".Setting.SettingActivity"></activity>
+        <activity
+            android:name=".Setting.SettingActivity"
+            android:screenOrientation="portrait">
 
-        <activity android:name=".Social.FormLogActivity">
+        </activity>
 
+        <activity android:name=".Social.FormLogActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Social.FormActivity" />
-        <activity android:name=".Social.RequestActivity">
+
+        <activity
+            android:name=".Social.FormActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".Social.RequestActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Social.RequestLogActivity" />
         </activity>
-        <activity android:name=".Social.RequestLogActivity" />
-        <activity android:name=".messages.ChatLogActivity">
+
+        <activity
+            android:name=".Social.RequestLogActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".messages.ChatLogActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".messages.MessagesActivity" />
         </activity>
-        <activity android:name=".messages.NewMessageActivity">
+
+        <activity
+            android:name=".messages.NewMessageActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".messages.MessagesActivity" />
         </activity>
-        <activity android:name=".messages.MessagesActivity" />
-        <activity android:name=".registerlogin.MainActivity" />
-        <activity android:name=".registerlogin.RegisterActivity" />
+
+        <activity
+            android:name=".messages.MessagesActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".registerlogin.MainActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".registerlogin.RegisterActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

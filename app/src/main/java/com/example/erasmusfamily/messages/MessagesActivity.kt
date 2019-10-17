@@ -1,11 +1,13 @@
 package com.example.erasmusfamily.messages
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
@@ -19,6 +21,7 @@ import com.example.erasmusfamily.registerlogin.MainActivity
 import com.example.erasmusfamily.view.LatestMessageRow
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_messages.*
@@ -27,15 +30,22 @@ class MessagesActivity : AppCompatActivity() {
 
     companion object {
         val NAME_KEY = "NAME_KEY"
-        var currentUser: User? = null
         val TAG = "MessagesActivity"
+        var currentUser: User? = null
     }
+
+    lateinit var mPref: SharedPreferences
+    private val KEY_USER_OBJECT = "USER"
+    private val key_user = "USER"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messages)
 
         supportActionBar?.title ="Chat"
+
+        fetchUser()
 
         recycleview_messages_activity.adapter = adapter
         recycleview_messages_activity.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -52,19 +62,39 @@ class MessagesActivity : AppCompatActivity() {
 
         listenForLatestMessages()
 
-        fetchCurrentUser()
-
         verifyUserIsLoggedIn()
 
         indirizzaUserFirst()
+
+        firstAccess()
+    }
+
+    private fun  firstAccess(){
+        val fromId = FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val chatMessage = p0.getValue(ChatMessage::class.java) ?: null
+                if(chatMessage == null) {
+                    notmessages_activiymessages.visibility = View.VISIBLE
+                }
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
     }
 
     private fun indirizzaUserFirst(){
-        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val uid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
         if(currentUser == null ){
-            Toast.makeText(this, "Ops, si è verificato un problema. Riprova ad effettuare l'accesso", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Ops, si è verificato un problema. Non risulti essere un utente abilitato. Riprova l'accesso.", Toast.LENGTH_LONG).show()
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this, MainActivity::class.java )
@@ -72,9 +102,9 @@ class MessagesActivity : AppCompatActivity() {
             startActivity(intent)
         } else {
             if(currentUser!!.first){
-                val name = currentUser!!.name+" "+ currentUser!!.surname
+                val name = MainActivity.currentUser!!.name+" "+ MainActivity.currentUser!!.surname
 
-                if(currentUser!!.andato){
+                if(MainActivity.currentUser!!.andato){
 
 
 
@@ -142,21 +172,6 @@ class MessagesActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<ViewHolder>()
 
-    private fun fetchCurrentUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-                currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current user ${currentUser?.profileImageUrl}")
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
-    }
 
     private fun verifyUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
@@ -196,6 +211,17 @@ class MessagesActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.navigationmenu_messages, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    //Fetch User
+    private fun fetchUser(){
+        mPref = getSharedPreferences(KEY_USER_OBJECT ,MODE_PRIVATE)
+
+        val gson: Gson= Gson()
+        val json = mPref.getString(key_user, "")
+        currentUser = gson.fromJson(json, User::class.java)
+
+
     }
 
 

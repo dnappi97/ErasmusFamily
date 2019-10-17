@@ -60,6 +60,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textAlignment="center"
         android:outlineAmbientShadowColor="@android:color/white"
         android:outlineSpotShadowColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/text_domanda_2"
@@ -158,12 +160,10 @@
 
     <EditText
         android:id="@+id/note_form_row"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
 
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/rounded_edittext_register_login"
         android:gravity="start"
         android:hint="- Esami sostenuti in Erasmus / Corrispondenza\n- Dove hai alloggiato \n- Note personali / consigli\n Ricordati che tutto quello che scriverai sarà utile a qualcuno"
@@ -171,7 +171,7 @@
         android:maxWidth="350dp"
         android:maxHeight="200dp"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/universitàpartenza_form_row"
         app:layout_constraintStart_toStartOf="@+id/text_domanda_6"
         app:layout_constraintTop_toBottomOf="@+id/text_domanda_6" />
 

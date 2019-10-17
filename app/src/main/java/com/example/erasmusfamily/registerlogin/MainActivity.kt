@@ -1,9 +1,12 @@
 package com.example.erasmusfamily.registerlogin
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -21,16 +24,30 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_request_compile.*
+import java.lang.reflect.Type
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        var currentUser: User? = null
+    }
 
+    private val KEY_USER_OBJECT = "USER"
+    private val KEY_SAVED_OBJECT = "USER_CREDENTIAL"
+
+    lateinit var mPref: SharedPreferences
 
     private var email= ""
     private var password= ""
     private val mAuth = FirebaseAuth.getInstance()
+
+    private val key_email = "EMAIL_USER"
+    private val key_pass = "PASSWORD_USER"
+    private val key_user = "USER"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +56,15 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title ="Erasmus Family"
 
+        mPref = getSharedPreferences(KEY_SAVED_OBJECT, Context.MODE_PRIVATE)
+        email = mPref.getString(key_email,"")
+        password = mPref.getString(key_pass,"")
+
+        if(!email.equals("") && !password.equals("")){
+            email_login.setText(email)
+            password_login.setText(password)
+            ricordacredenziali_login!!.isChecked = true
+        }
 
         button_login.setOnClickListener{
             performLogin()
@@ -80,8 +106,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceType")
     private fun performLogin() {
 
-        email = email_login.text.toString()
-        password = password_login.text.toString()
+        email = email_login.text.toString().trim()
+        password = password_login.text.toString().trim()
 
         val progressbar = findViewById<ProgressBar>(R.id.progressBar_login)
 
@@ -106,10 +132,18 @@ class MainActivity : AppCompatActivity() {
                 if(user!!.isEmailVerified){
                     Log.d("Login", "Successfully logged in: ${it.result?.user?.uid}")
 
+                    rememberMe()
+                    //catchUser()
 
-                    val intent = Intent(this, MessagesActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
+
+//                    if(currentUser != null) {
+//                        println("utente non è null")
+//                    } else {
+//                        println("utente è null")
+//                    }
+
+
+
                 } else {
                     Toast.makeText(this, "Email non verificata, verifica prima la tua email per effettuare l'accesso", Toast.LENGTH_SHORT).show()
                     return@addOnCompleteListener
@@ -126,6 +160,71 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    private fun fetchCurrentUser() {
+        val uid = FirebaseAuth.getInstance().uid
+        println(uid)
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
+            override fun onDataChange(p0: DataSnapshot) {
+                currentUser = p0.getValue(User::class.java)
+
+                rememberUser()
+
+                Log.d("LatestMessages", "Current user ${currentUser?.profileImageUrl}")
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+        })
+
+    }
+
+    private fun startActivity(){
+        val intent = Intent(this, MessagesActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+    }
+
+
+    //Ricorda credenziali
+
+   private fun rememberMe(){
+
+       mPref = getSharedPreferences(KEY_SAVED_OBJECT ,MODE_PRIVATE)
+
+       if(ricordacredenziali_login.isChecked){
+           mPref.edit()
+               .putString(key_email, email)
+               .putString(key_pass, password)
+               .apply()
+
+       } else {
+
+           mPref.edit().remove(key_pass).apply()
+           mPref.edit().remove(key_email).apply()
+       }
+
+       fetchCurrentUser()
+   }
+
+    //Ricorda user
+    private fun rememberUser(){
+        mPref = getSharedPreferences(KEY_USER_OBJECT ,MODE_PRIVATE)
+
+        if(currentUser != null){
+
+            val gson: Gson = Gson()
+            val json = gson.toJson(currentUser, User::class.java)
+            mPref.edit().putString(key_user, json).apply()
+            println(currentUser.toString())
+            startActivity()
+        }
+
+
+    }
 
 }

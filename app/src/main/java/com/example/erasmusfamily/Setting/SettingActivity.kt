@@ -1,6 +1,8 @@
 package com.example.erasmusfamily.Setting
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +25,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -31,13 +34,19 @@ import kotlinx.android.synthetic.main.activity_setting_item.*
 
 class SettingActivity: AppCompatActivity(){
 
-    private lateinit var auth: FirebaseAuth
+    companion object {
+        lateinit var mPref: SharedPreferences
+        private val KEY_USER_OBJECT = "USER"
+        private val key_user = "USER"
+        var currentUser: User? = null
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_item)
 
-        auth = FirebaseAuth.getInstance()
+        fetchUser()
 
         supportActionBar?.title = "User"
         supportActionBar?.setIcon(R.drawable.ic_settings)
@@ -55,9 +64,10 @@ class SettingActivity: AppCompatActivity(){
 
 
 
+    @SuppressLint("SetTextI18n")
     private fun setSettingPage(){
 
-        val user = MessagesActivity.currentUser
+        val user = currentUser
 
         if(user == null ){
 
@@ -67,13 +77,14 @@ class SettingActivity: AppCompatActivity(){
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+
         } else {
 
             nameuser_setting.text = user.name+" "+ user.surname
             emailuser_setting.text = user.email
             Picasso.get().load(user.profileImageUrl).into(imageview_setting)
 
-            if(user.andato!!){
+            if(user.andato){
 
                 tipebrother_setting.text = "Big Brothers"
                 iconetipe_setting.setImageResource(R.drawable.ic_bigbrothers)
@@ -119,6 +130,17 @@ class SettingActivity: AppCompatActivity(){
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.navigationmenu_setting, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    //Fetch User
+    private fun fetchUser(){
+        mPref = getSharedPreferences(KEY_USER_OBJECT ,MODE_PRIVATE)
+
+        val gson: Gson= Gson()
+        val json = mPref.getString(key_user, "")
+        currentUser= gson.fromJson(json, User::class.java)
+
+
     }
 
 }

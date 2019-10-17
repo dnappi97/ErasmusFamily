@@ -1,7 +1,9 @@
 package com.example.erasmusfamily.registerlogin
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -21,6 +23,7 @@ import com.example.erasmusfamily.messages.NewMessageActivity
 import com.example.erasmusfamily.models.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.Gson
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -29,17 +32,17 @@ import kotlin.collections.ArrayList
 
 class RegisterActivity: AppCompatActivity(){
 
-    companion object{
-        val NAME_KEY = "NAME_KEY"
-    }
-
-    private val mAuth: FirebaseAuth? = null
+    private val KEY_USER_OBJECT = "USER"
+    lateinit var mPref: SharedPreferences
+    private var user: User ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         supportActionBar?.title ="Registrazione"
+
+        mPref = getSharedPreferences(KEY_USER_OBJECT, Context.MODE_PRIVATE)
 
         registrati_signin.setOnClickListener{
             performRegister()
@@ -51,6 +54,7 @@ class RegisterActivity: AppCompatActivity(){
             //start signin activity
             val intent= Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         selectphoto_button_register.setOnClickListener{
@@ -59,10 +63,6 @@ class RegisterActivity: AppCompatActivity(){
             val intent=Intent(Intent.ACTION_PICK)
             intent.type="image/*"
             startActivityForResult(intent, 0)
-        }
-
-        verificationemail_signin.setOnClickListener{
-            sendEmailVerification()
         }
     }
 
@@ -105,13 +105,13 @@ class RegisterActivity: AppCompatActivity(){
             return
         }
 
-        if(password.isEmpty() || isValidPassword(password) || password.length < 8){
+        if(password.isEmpty() || !isValidPassword(password)){
             password_signin.setError("La password deve contenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.")
             password_signin.requestFocus()
             return
         }
 
-        if( email.isEmpty() || isValidEmail(email)){
+        if( email.isEmpty() || !isValidEmail(email)){
             email_signin.setError("La mail deve essere verificata, inserirne una veritiera")
             email_signin.requestFocus()
             return
@@ -139,6 +139,14 @@ class RegisterActivity: AppCompatActivity(){
                 progressbar.visibility = View.GONE
 
                 if(!it.isSuccessful) return@addOnCompleteListener
+
+                if(it.isSuccessful) {
+//                    Toast.makeText(this, "Clicca su 'Verifica Email' per completare la registrazione", Toast.LENGTH_LONG).show()
+//                    scrollview_registration.fullScroll(View.FOCUS_DOWN)
+//                    verificationemail_signin.setError("Clicca qui!")
+//                    verificationemail_signin.requestFocus()
+                    sendEmailVerification()
+                }
 
                 //else if successful
                 d("Main", "Successfully created user with uid: ${it.result?.user!!.uid} ")
@@ -169,6 +177,7 @@ class RegisterActivity: AppCompatActivity(){
                     val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
+                    finish()
                 }
 
             } else {
@@ -207,17 +216,15 @@ class RegisterActivity: AppCompatActivity(){
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        var andrà = false
         var andato = false
 
-       if(non_andato_signin.isChecked)
-            andrà = true
+
 
        if(andato_signin.isChecked)
             andato = true
 
 
-        val user = User(
+        user = User(
             true,
             uid,
             name_signin.text.toString(),
@@ -225,19 +232,18 @@ class RegisterActivity: AppCompatActivity(){
             email_signin.text.toString(),
             password_signin.text.toString(),
             profileImageUrl,
-            andrà,
-            andato,
-            ArrayList<User>()
+            andato
         )
 
         ref.setValue(user)
             .addOnSuccessListener {
                 d("RegisterActivity", "Saved the user to Firebase Database")
 
-                Toast.makeText(this, "Clicca su 'Verifica Email' per completare la registrazione", Toast.LENGTH_LONG).show()
-                scrollview_registration.fullScroll(View.FOCUS_DOWN)
-                verificationemail_signin.setError("Clicca qui!")
-                verificationemail_signin.requestFocus()
+                val gson = Gson()
+                val userObject = gson.toJson(user)
+                mPref.edit().putString("Utente",userObject)
+                mPref.edit().apply()
+
             }
             .addOnFailureListener{
                 Toast.makeText(this, "Qualcosa è andato storto durante la registrazione, riprova", Toast.LENGTH_SHORT).show()
@@ -245,12 +251,12 @@ class RegisterActivity: AppCompatActivity(){
             }
     }
 
-
+    //VALIDATION PASSWORD
     protected fun isValidPassword(password: String): Boolean {
 
         val pattern: Pattern
         val matcher: Matcher
-        val Password_Pattern = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])(?=\\S*?[@#\$%^&+=])\\S{8,20}\\z"
+        val Password_Pattern = "(?=^.{8,20}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$"
         pattern = Pattern.compile(Password_Pattern)
         matcher = pattern.matcher(password)
 
@@ -259,13 +265,7 @@ class RegisterActivity: AppCompatActivity(){
     }
 
     protected fun isValidEmail(email: String): Boolean {
-        val pattern: Pattern
-        val matcher: Matcher
-        val Email_Pattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}\$/"
-        pattern = Pattern.compile(Email_Pattern)
-        matcher = pattern.matcher(email)
-
-        return matcher.matches()
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
 

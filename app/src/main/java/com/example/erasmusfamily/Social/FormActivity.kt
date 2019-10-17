@@ -13,14 +13,15 @@ import com.example.erasmusfamily.R
 import com.example.erasmusfamily.messages.MessagesActivity
 import com.example.erasmusfamily.models.Form
 import com.example.erasmusfamily.models.User
+import com.example.erasmusfamily.registerlogin.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_form_compile.*
+import kotlinx.android.synthetic.main.activity_form_item.*
 
 class FormActivity: AppCompatActivity(){
 
     companion object {
-        var currentUser: User? = null
         var currentForm: Form?  = null
     }
 
@@ -40,7 +41,7 @@ class FormActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_compile)
 
-        supportActionBar?.title ="Diventa un Big Brothers!"
+        supportActionBar?.title ="Diventa un Big Brother!"
 
         //Settings spinner
         var spin: Spinner = findViewById(R.id.spinnernazionalità_from_row) as Spinner
@@ -64,7 +65,6 @@ class FormActivity: AppCompatActivity(){
             }
         }
 
-        fetchCurrentUser()
         fetchCurrentForm()
 
         button_form_row.setOnClickListener{
@@ -72,13 +72,35 @@ class FormActivity: AppCompatActivity(){
         }
     }
 
+
     private fun fetchCurrentForm(){
+
         val uid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("form/$uid")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
                 currentForm = p0.getValue(Form::class.java)
+
+                if( currentForm != null ){
+
+                    universitàospitante_form_row.setText(currentForm?.uni_ospitante)
+                    facoltà_form_row.setText(currentForm?.facoltà)
+                    mesipermanenza_form_row.setText(currentForm?.permanenza.toString())
+                    universitàpartenza_form_row.setText(currentForm?.uni_partenza)
+                    note_form_row.setText(currentForm?.note)
+
+                    val myAdapter : ArrayAdapter<String>
+                    val spin = spinnernazionalità_from_row
+
+                    myAdapter = spin.adapter as ArrayAdapter<String>
+
+                    val position = myAdapter.getPosition(currentForm?.nazione)
+                    spin.setSelection(position)
+
+                    button_form_row.setText("MODIFICA")
+
+                }
 
             }
 
@@ -87,15 +109,7 @@ class FormActivity: AppCompatActivity(){
             }
         })
 
-        if( currentForm != null ){
 
-            universitàospitante_form_row.setText(currentForm?.uni_ospitante)
-            facoltà_form_row.setText(currentForm?.facoltà)
-            mesipermanenza_form_row.setText(currentForm?.permanenza.toString())
-            universitàpartenza_form_row.setText(currentForm?.uni_partenza)
-            note_form_row.setText(currentForm?.note)
-
-        }
     }
 
     @SuppressLint("ResourceType")
@@ -143,16 +157,16 @@ class FormActivity: AppCompatActivity(){
         val ref = FirebaseDatabase.getInstance().getReference("form/$uid")
 
 
-        val form = currentUser?.let {
-            Form(currentUser?.name+" "+ currentUser?.surname, uni_ospitante, nazione, facoltà, permanenza, uni_partenza, note,
+        val form = MainActivity.currentUser?.let {
+            Form(MainActivity.currentUser?.name+" "+ MainActivity.currentUser?.surname, uni_ospitante, nazione, facoltà, permanenza, uni_partenza, note,
                 it
             )
         }
         ref.setValue(form).addOnSuccessListener {
 
             val refUs = FirebaseDatabase.getInstance().getReference("/users/$uid")
-            currentUser!!.first= false
-            refUs.setValue(currentUser)
+            MainActivity.currentUser!!.first= false
+            refUs.setValue(MainActivity.currentUser)
 
             val intent = Intent(this, FormLogActivity::class.java )
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -162,20 +176,13 @@ class FormActivity: AppCompatActivity(){
 
     }
 
-    private fun fetchCurrentUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+    override fun onBackPressed() {
+        super.onBackPressed()
 
-            override fun onDataChange(p0: DataSnapshot) {
-                currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current user ${MessagesActivity.currentUser?.profileImageUrl}")
-            }
+        val intent = Intent(this, FormLogActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
 
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
     }
 
 }

@@ -7,6 +7,7 @@ import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Social.FormLogActivity
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.User
+import com.example.erasmusfamily.registerlogin.MainActivity
 import com.example.erasmusfamily.view.ChatFromItem
 import com.example.erasmusfamily.view.ChatToItem
 import com.google.firebase.auth.FirebaseAuth
@@ -38,8 +39,6 @@ class ChatLogActivity : AppCompatActivity() {
 
         recyclerview_chat_log.adapter = adapter
 
-        //toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-
         toUser = intent.getParcelableExtra<User>(FormLogActivity.USER_KEY)
 
         supportActionBar?.title = toUser?.name+" "+toUser?.surname
@@ -67,7 +66,7 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(TAG, chatMessage.text)
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        val currentUser = MessagesActivity.currentUser ?: return
+                        val currentUser = MainActivity.currentUser ?: return
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))

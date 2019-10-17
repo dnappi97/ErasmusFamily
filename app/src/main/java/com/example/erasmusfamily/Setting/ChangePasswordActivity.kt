@@ -36,20 +36,22 @@ class ChangePasswordActivity : AppCompatActivity(){
                 vecchiapassword_changepassword.requestFocus()
             }
 
-            if (nuovapassword_changepassword.text.toString().isEmpty()) {
+            else if (nuovapassword_changepassword.text.toString().isEmpty()) {
                 nuovapassword_changepassword.setError("Compila il campo")
                 nuovapassword_changepassword.requestFocus()
             }
 
-            if (conferma.text.toString().isEmpty()) {
+            else if (conferma.text.toString().isEmpty()) {
                 confermapassword_changepassword.setError("Compila il campo")
                 confermapassword_changepassword.requestFocus()
             }
 
-            if(isValidPassword(vecchiapassword_changepassword.text.toString()) &&
-                isValidPassword(confermapassword_changepassword.text.toString())){
+            else if(isValidPassword(nuovapassword_changepassword.text.toString()) ||
+                isValidPassword(confermapassword_changepassword.text.toString()) ||
+                nuovapassword_changepassword.text.length < 8 || confermapassword_changepassword.text.length < 8){
 
-                Toast.makeText(this, "La password deve contenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.", Toast.LENGTH_LONG).show()
+                nuovapassword_changepassword.setError("La password inserita non rispetta i parametri.\nLa password deve contenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.")
+                nuovapassword_changepassword.requestFocus()
             }
 
             else if ( nuovapassword_changepassword.text.toString().equals(confermapassword_changepassword.text.toString()) ) {
@@ -61,13 +63,13 @@ class ChangePasswordActivity : AppCompatActivity(){
                     val credential = EmailAuthProvider
                         .getCredential(user.email!!, vecchia.text.toString())
 
-                    user?.reauthenticate(credential)
-                        ?.addOnCompleteListener {
+                    user.reauthenticate(credential)
+                        .addOnCompleteListener {
 
                             if (it.isSuccessful) {
 
-                                user?.updatePassword(nuova.text.toString())
-                                    ?.addOnCompleteListener { task ->
+                                user.updatePassword(nuova.text.toString())
+                                    .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
 
                                             Toast.makeText(

@@ -41,7 +41,6 @@ class RequestLogActivity: AppCompatActivity(){
         recycleview_request_log.adapter = adapter
         recycleview_request_log.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        fetchCurrentUser()
         verifyUserIsLoggedIn()
 
         searchRequest()
@@ -72,11 +71,9 @@ class RequestLogActivity: AppCompatActivity(){
 
             }
             override fun onChildRemoved(p0: DataSnapshot) {
-                val request = p0.getValue(Request::class.java) ?: return
-
-                adapter.add(RequestItem(request.name, request.title, request.text, request.user))
 
             }
+
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -91,12 +88,14 @@ class RequestLogActivity: AppCompatActivity(){
                 val dialog = AlertDialog.Builder(this)
                 val dialogView = layoutInflater.inflate(R.layout.activity_elimination_request, null)
                 val textViewChat = dialogView.findViewById<TextView>(R.id.textview_elimination_request)
-                val buttonChat = dialogView.findViewById<Button>(R.id.button_elimination_request)
+                val buttonElimination = dialogView.findViewById<Button>(R.id.button_elimination_request)
+                val buttonModifica = dialogView.findViewById<Button>(R.id.button_modifica_request)
                 dialog.setView(dialogView)
                 dialog.setCancelable(true)
                 textViewChat.text = "Vuoi eliminare la tua domanda?"
-                buttonChat.text = "Elimina"
-                buttonChat.setOnClickListener{
+
+
+                buttonElimination.setOnClickListener{
                     val uid = FirebaseAuth.getInstance().uid
                     val refReq = FirebaseDatabase.getInstance().getReference("request/$uid")
                     refReq.removeValue()
@@ -105,12 +104,18 @@ class RequestLogActivity: AppCompatActivity(){
 
                     intent.putExtra(USER_KEY, requestItem.user)
                     startActivity(intent)
-                    finish()
+                }
+
+                buttonModifica.setOnClickListener{
+
+                    val intent = Intent(view.context, RequestActivity::class.java)
+
+                    intent.putExtra(USER_KEY, requestItem.user)
+                    startActivity(intent)
+
                 }
 
                 dialog.show()
-
-
             }
             else {
 
@@ -128,8 +133,6 @@ class RequestLogActivity: AppCompatActivity(){
                     startActivity(intent)
                 }
 
-
-
                 dialog.show()
 
             }
@@ -137,21 +140,6 @@ class RequestLogActivity: AppCompatActivity(){
     }
 
 
-    private fun fetchCurrentUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-                MessagesActivity.currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current user ${MessagesActivity.currentUser?.profileImageUrl}")
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
-    }
 
     private fun verifyUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid

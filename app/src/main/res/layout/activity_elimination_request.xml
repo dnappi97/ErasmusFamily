@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_select_photo_button"
         android:text="Elimina"
-        app:layout_constraintEnd_toEndOf="@+id/textview_elimination_request"
+        app:layout_constraintEnd_toStartOf="@+id/button_modifica_request"
         app:layout_constraintStart_toStartOf="@+id/textview_elimination_request"
         app:layout_constraintTop_toBottomOf="@+id/textview_elimination_request" />
 
@@ -41,4 +41,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_elimination_request" />
+
+    <Button
+        android:id="@+id/button_modifica_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:text="MODIFICA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/button_elimination_request"
+        app:layout_constraintTop_toBottomOf="@+id/textview_elimination_request" />
 </androidx.constraintlayout.widget.ConstraintLayout>
