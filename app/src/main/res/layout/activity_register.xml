@@ -14,99 +14,132 @@
 
         <Button
             android:id="@+id/selectphoto_button_register"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="8dp"
-            android:drawableTop="@drawable/ic_add_a_photo"
-            android:background="@drawable/rounded_button_style"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_camera_blu"
             android:gravity="center"
-            android:text="SELECT PHOTO"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/name_signin"
-            app:layout_constraintStart_toStartOf="@+id/name_signin"
+            app:layout_constraintEnd_toEndOf="@+id/name_signin_layout"
+            app:layout_constraintStart_toStartOf="@+id/name_signin_layout"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginStart="80dp" />
 
-        <EditText
-            android:id="@+id/name_signin"
+        //NOME
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_signin_layout"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:background="@drawable/rounded_edittext_register_login"
-            android:ems="10"
-            android:hint="Name"
-            android:inputType="textCapSentences"
-            android:paddingLeft="16dp"
-            android:maxHeight="25dp"
-            android:maxLength="18"
+            android:layout_height="60dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectphoto_button_register" />
+            app:layout_constraintTop_toBottomOf="@+id/selectphoto_button_register">
 
-        <EditText
-            android:id="@+id/surname_signin"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_signin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_edittext_register_login"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textCapSentences"
+                android:maxHeight="25dp"
+                android:maxLength="18"
+                android:paddingLeft="16dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //COGNOME
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/surname_signin_layout"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_edittext_register_login"
-            android:ems="10"
-            android:hint="Surname"
-            android:inputType="textCapSentences"
-            android:paddingLeft="16dp"
-            android:maxHeight="25dp"
-            android:maxLength="18"
-            app:layout_constraintEnd_toEndOf="@+id/name_signin"
-            app:layout_constraintStart_toStartOf="@+id/name_signin"
-            app:layout_constraintTop_toBottomOf="@+id/name_signin" />
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="@+id/name_signin_layout"
+            app:layout_constraintStart_toStartOf="@+id/name_signin_layout"
+            app:layout_constraintTop_toBottomOf="@+id/name_signin_layout">
 
-        <EditText
-            android:id="@+id/email_signin"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/surname_signin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_edittext_register_login"
+                android:ems="10"
+                android:hint="Surname"
+                android:inputType="textCapSentences"
+                android:paddingLeft="16dp"
+                android:maxHeight="25dp"
+                android:maxLength="18"/>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        //EMAIL
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_signin_layout"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_edittext_register_login"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingLeft="16dp"
-            android:maxHeight="25dp"
-            android:maxLength="25"
-            app:layout_constraintEnd_toEndOf="@+id/surname_signin"
-            app:layout_constraintStart_toStartOf="@+id/surname_signin"
-            app:layout_constraintTop_toBottomOf="@+id/surname_signin" />
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="@+id/surname_signin_layout"
+            app:layout_constraintStart_toStartOf="@+id/surname_signin_layout"
+            app:layout_constraintTop_toBottomOf="@+id/surname_signin_layout">
 
-        <EditText
-            android:id="@+id/password_signin"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_signin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_edittext_register_login"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="16dp"
+                android:maxHeight="25dp"
+                android:maxLength="35"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        //PASSWORD
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_signin_layout"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_edittext_register_login"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingLeft="16dp"
+            android:layout_height="60dp"
             android:maxHeight="25dp"
-            android:maxLength="18"
-            app:layout_constraintEnd_toEndOf="@+id/email_signin"
-            app:layout_constraintStart_toStartOf="@+id/email_signin"
-            app:layout_constraintTop_toBottomOf="@+id/email_signin" />
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="@+id/email_signin_layout"
+            app:layout_constraintStart_toStartOf="@+id/email_signin_layout"
+            app:layout_constraintTop_toBottomOf="@+id/email_signin_layout"
+            app:passwordToggleEnabled="true">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_signin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_button_style"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingLeft="12dp" />
+
+
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <RadioGroup
             android:id="@+id/radioGroup_signin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/password_signin"
-            app:layout_constraintStart_toStartOf="@+id/password_signin"
-            app:layout_constraintTop_toBottomOf="@+id/password_signin">
+            app:layout_constraintEnd_toEndOf="@+id/password_signin_layout"
+            app:layout_constraintStart_toStartOf="@+id/password_signin_layout"
+            app:layout_constraintTop_toBottomOf="@+id/password_signin_layout">
 
             <RadioButton
                 android:id="@+id/non_andato_signin"
@@ -162,8 +195,8 @@
             app:civ_border_color="@android:color/black"
             app:civ_border_width="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/selectphoto_button_register"
-            app:layout_constraintEnd_toEndOf="@+id/name_signin"
-            app:layout_constraintStart_toStartOf="@+id/name_signin"
+            app:layout_constraintEnd_toEndOf="@+id/name_signin_layout"
+            app:layout_constraintStart_toStartOf="@+id/name_signin_layout"
             app:layout_constraintTop_toTopOf="@+id/selectphoto_button_register" />
 
         <ProgressBar

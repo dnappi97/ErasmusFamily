@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 import android.util.Log.d
 import android.view.View
+import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.erasmusfamily.R
@@ -32,17 +33,14 @@ import kotlin.collections.ArrayList
 
 class RegisterActivity: AppCompatActivity(){
 
-    private val KEY_USER_OBJECT = "USER"
-    lateinit var mPref: SharedPreferences
     private var user: User ? = null
+    private var filename: String ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         supportActionBar?.title ="Registrazione"
-
-        mPref = getSharedPreferences(KEY_USER_OBJECT, Context.MODE_PRIVATE)
 
         registrati_signin.setOnClickListener{
             performRegister()
@@ -92,13 +90,13 @@ class RegisterActivity: AppCompatActivity(){
 
         val progressbar = findViewById<ProgressBar>(R.id.progressBar_register)
 
-        if( name_signin.text.toString().isEmpty() || name_signin.text.length < 2){
+        if( name_signin.text.toString().isEmpty() || name_signin.text!!.length < 2){
             name_signin.setError("Il campo non rispetta i paramentri di dimensione. Almeno 3 caratteri")
             name_signin.requestFocus()
             return
         }
 
-        if( surname_signin.text.toString().isEmpty() || surname_signin.text.length < 2){
+        if( surname_signin.text.toString().isEmpty() || surname_signin.text!!.length < 2){
 
             surname_signin.setError("Il campo non rispetta i paramentri di dimensione. Almeno 3 caratteri")
             surname_signin.requestFocus()
@@ -136,22 +134,21 @@ class RegisterActivity: AppCompatActivity(){
         //Firebase authentication to create a user with email and password
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
-                progressbar.visibility = View.GONE
 
                 if(!it.isSuccessful) return@addOnCompleteListener
 
                 if(it.isSuccessful) {
-//                    Toast.makeText(this, "Clicca su 'Verifica Email' per completare la registrazione", Toast.LENGTH_LONG).show()
-//                    scrollview_registration.fullScroll(View.FOCUS_DOWN)
-//                    verificationemail_signin.setError("Clicca qui!")
-//                    verificationemail_signin.requestFocus()
-                    sendEmailVerification()
+                    getWindow().setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
+                    uploadImageToFirbaseStorage()
                 }
 
                 //else if successful
                 d("Main", "Successfully created user with uid: ${it.result?.user!!.uid} ")
 
-                uploadImageToFirbaseStorage()
+
             }
             .addOnFailureListener{
                 Log.d("Main", "Failed to create user: ${it.message}")
@@ -171,7 +168,9 @@ class RegisterActivity: AppCompatActivity(){
             if(!email.isEmpty()){
 
                 user.sendEmailVerification().addOnSuccessListener {
-                    Toast.makeText(this, "Verifica la tua email per completare la registrazione", Toast.LENGTH_LONG).show()
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    progressBar_register.visibility = View.GONE
+                    Toast.makeText(this, "Email di verifica inviata all'indirizzo inidicato durante la registrazione", Toast.LENGTH_LONG).show()
                     FirebaseAuth.getInstance().signOut()
 
                     val intent = Intent(this, MainActivity::class.java)
@@ -181,6 +180,8 @@ class RegisterActivity: AppCompatActivity(){
                 }
 
             } else {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                progressBar_register.visibility = View.GONE
                 Toast.makeText(this, "Campo 'email' vuoto, impossibile verificare la email", Toast.LENGTH_LONG).show()
                 email_signin.setError("Inserire una email per verificarla")
                 email_signin.requestFocus()
@@ -193,7 +194,7 @@ class RegisterActivity: AppCompatActivity(){
 
     private fun uploadImageToFirbaseStorage() {
 
-        val filename = UUID.randomUUID().toString()
+        filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
         ref.putFile(selectedPhotoUri!!)
@@ -230,7 +231,7 @@ class RegisterActivity: AppCompatActivity(){
             name_signin.text.toString(),
             surname_signin.text.toString(),
             email_signin.text.toString(),
-            password_signin.text.toString(),
+            filename.toString(),
             profileImageUrl,
             andato
         )
@@ -238,11 +239,7 @@ class RegisterActivity: AppCompatActivity(){
         ref.setValue(user)
             .addOnSuccessListener {
                 d("RegisterActivity", "Saved the user to Firebase Database")
-
-                val gson = Gson()
-                val userObject = gson.toJson(user)
-                mPref.edit().putString("Utente",userObject)
-                mPref.edit().apply()
+                sendEmailVerification()
 
             }
             .addOnFailureListener{
@@ -261,7 +258,6 @@ class RegisterActivity: AppCompatActivity(){
         matcher = pattern.matcher(password)
 
         return matcher.matches()
-
     }
 
     protected fun isValidEmail(email: String): Boolean {

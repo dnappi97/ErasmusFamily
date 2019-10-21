@@ -2,12 +2,11 @@ package com.example.erasmusfamily.Social
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,14 +14,15 @@ import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Setting.SettingActivity
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
+import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.Request
-import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
 import com.example.erasmusfamily.view.RequestItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.activity_messages.*
 import kotlinx.android.synthetic.main.activity_request_log.*
 
 class RequestLogActivity: AppCompatActivity(){
@@ -43,7 +43,26 @@ class RequestLogActivity: AppCompatActivity(){
 
         verifyUserIsLoggedIn()
 
+        firstAccess()
         searchRequest()
+    }
+
+    private fun firstAccess(){
+        val ref = FirebaseDatabase.getInstance().getReference("request")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val request = p0.getValue(Request::class.java)
+                if(request == null) {
+                    norequest_request_log.visibility = View.VISIBLE
+                }
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
 
     private fun searchRequest(){

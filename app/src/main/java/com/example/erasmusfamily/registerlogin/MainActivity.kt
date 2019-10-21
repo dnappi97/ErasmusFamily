@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mPref: SharedPreferences
 
-    private var email= ""
-    private var password= ""
+    lateinit var email: String
+    lateinit var password: String
     private val mAuth = FirebaseAuth.getInstance()
 
     private val key_email = "EMAIL_USER"
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         email = mPref.getString(key_email,"")
         password = mPref.getString(key_pass,"")
 
-        if(!email.equals("") && !password.equals("")){
+        if(!email.isEmpty() && !password.isEmpty()){
             email_login.setText(email)
             password_login.setText(password)
             ricordacredenziali_login!!.isChecked = true
@@ -112,11 +112,17 @@ class MainActivity : AppCompatActivity() {
         val progressbar = findViewById<ProgressBar>(R.id.progressBar_login)
 
 
-        if( email.isEmpty() || password.isEmpty()){
-            email_login.setError("Il campo non rispetta i paramentri di dimensione. Non può essere vuoto")
+        if( email.isEmpty() ){
+
+            email_login.error = "Il campo non rispetta i paramentri di dimensione. Non può essere vuoto"
             email_login.requestFocus()
-            password_login.setError("Il campo non rispetta i paramentri di dimensione. Non può essere vuoto")
+
+            return
+        } else if (password.isEmpty() ){
+
+            password_login.error = "Il campo non rispetta i paramentri di dimensione. Non può essere vuoto"
             password_login.requestFocus()
+
             return
         }
 
@@ -133,16 +139,6 @@ class MainActivity : AppCompatActivity() {
                     Log.d("Login", "Successfully logged in: ${it.result?.user?.uid}")
 
                     rememberMe()
-                    //catchUser()
-
-
-//                    if(currentUser != null) {
-//                        println("utente non è null")
-//                    } else {
-//                        println("utente è null")
-//                    }
-
-
 
                 } else {
                     Toast.makeText(this, "Email non verificata, verifica prima la tua email per effettuare l'accesso", Toast.LENGTH_SHORT).show()
@@ -162,7 +158,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchCurrentUser() {
         val uid = FirebaseAuth.getInstance().uid
-        println(uid)
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
@@ -183,7 +178,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startActivity(){
-        val intent = Intent(this, MessagesActivity::class.java)
+        val intent = Intent(this, FormLogActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
@@ -217,13 +212,21 @@ class MainActivity : AppCompatActivity() {
 
         if(currentUser != null){
 
-            val gson: Gson = Gson()
+            val gson = Gson()
             val json = gson.toJson(currentUser, User::class.java)
             mPref.edit().putString(key_user, json).apply()
-            println(currentUser.toString())
             startActivity()
         }
 
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
 
     }
 

@@ -1,8 +1,11 @@
 package com.example.erasmusfamily.messages
 
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Social.FormLogActivity
 import com.example.erasmusfamily.models.ChatMessage
@@ -15,6 +18,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -27,7 +31,12 @@ class ChatLogActivity : AppCompatActivity() {
 
     companion object {
         val TAG = "ChatLog"
+        var currentUser: User? = null
     }
+
+    private val KEY_USER_OBJECT = "USER"
+    private val key_user = "USER"
+    lateinit var mPref: SharedPreferences
 
     val adapter = GroupAdapter<ViewHolder>()
 
@@ -43,6 +52,8 @@ class ChatLogActivity : AppCompatActivity() {
 
         supportActionBar?.title = toUser?.name+" "+toUser?.surname
 
+        verifyUserIsLoggedIn()
+        fetchUser()
         listenForMessages()
 
         send_buttom_chat_log.setOnClickListener {
@@ -66,7 +77,7 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(TAG, chatMessage.text)
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        val currentUser = MainActivity.currentUser ?: return
+                        val currentUser = currentUser ?: return
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
@@ -133,5 +144,25 @@ class ChatLogActivity : AppCompatActivity() {
 
         val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
         latestMessageToRef.setValue(chatMessage)
+    }
+
+    //Fetch User
+    private fun fetchUser(){
+        mPref = getSharedPreferences(KEY_USER_OBJECT,MODE_PRIVATE)
+
+        val gson = Gson()
+        val json = mPref.getString(key_user, "")
+        currentUser = gson.fromJson(json, User::class.java)
+    }
+
+    //Verifica se l'utente è loggato
+    private fun verifyUserIsLoggedIn() {
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            Toast.makeText(this, "Ops. Si è verificato un problema, riprova l'accesso.", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
     }
 }

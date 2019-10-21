@@ -2,6 +2,7 @@ package com.example.erasmusfamily.Setting
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +21,7 @@ class ChangePasswordActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_changepassword)
 
+        verifyUserIsLoggedIn()
         changePassword()
     }
 
@@ -46,9 +48,7 @@ class ChangePasswordActivity : AppCompatActivity(){
                 confermapassword_changepassword.requestFocus()
             }
 
-            else if(isValidPassword(nuovapassword_changepassword.text.toString()) ||
-                isValidPassword(confermapassword_changepassword.text.toString()) ||
-                nuovapassword_changepassword.text.length < 8 || confermapassword_changepassword.text.length < 8){
+            else if(!isValidPassword(nuovapassword_changepassword.text.toString())){
 
                 nuovapassword_changepassword.setError("La password inserita non rispetta i parametri.\nLa password deve contenere minimo 8 caratteri e massimo 20, tra cui almeno un numero ed una lettera maiuscola.")
                 nuovapassword_changepassword.requestFocus()
@@ -63,6 +63,8 @@ class ChangePasswordActivity : AppCompatActivity(){
                     val credential = EmailAuthProvider
                         .getCredential(user.email!!, vecchia.text.toString())
 
+                    progressBar_changepassword.visibility = View.VISIBLE
+
                     user.reauthenticate(credential)
                         .addOnCompleteListener {
 
@@ -70,8 +72,10 @@ class ChangePasswordActivity : AppCompatActivity(){
 
                                 user.updatePassword(nuova.text.toString())
                                     .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
 
+                                        progressBar_changepassword.visibility = View.GONE
+
+                                        if (task.isSuccessful) {
                                             Toast.makeText(
                                                 this,
                                                 "Password modificata con successo",
@@ -83,51 +87,51 @@ class ChangePasswordActivity : AppCompatActivity(){
                                             startActivity(intent)
                                         }
                                     }
-
                             } else {
+                                progressBar_changepassword.visibility = View.GONE
 
                                 Toast.makeText(
                                     this,
                                     "Assicurati di aver scritto la tua password corrente correttamente",
                                     Toast.LENGTH_LONG
                                 ).show()
-
-
                             }
                         }
 
-
-
                 } else {
-
                     val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finish()
                 }
-
             } else {
-
                 Toast.makeText(
                     this,
                     "Le password non coincidono, riscrivere correttamente i campi",
                     Toast.LENGTH_LONG
                 ).show()
             }
-
         }
-
     }
 
     protected fun isValidPassword(password: String): Boolean {
-
         val pattern: Pattern
         val matcher: Matcher
-        val Password_Pattern = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])(?=\\S*?[@#\$%^&+=])\\S{8,20}\\z"
+        val Password_Pattern = "(?=^.{8,20}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$"
         pattern = Pattern.compile(Password_Pattern)
         matcher = pattern.matcher(password)
 
         return matcher.matches()
+    }
 
+    //Verifica se l'utente è loggato
+    private fun verifyUserIsLoggedIn() {
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            Toast.makeText(this, "Ops. Si è verificato un problema, riprova l'accesso.", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
     }
 }

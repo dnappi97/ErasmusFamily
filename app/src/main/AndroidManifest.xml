@@ -29,6 +29,7 @@
 
         <activity android:name=".Social.FormLogActivity"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +39,9 @@
 
         <activity
             android:name=".Social.FormActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity
             android:name=".Social.RequestActivity"

@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.activity_messages.*
 class MessagesActivity : AppCompatActivity() {
 
     companion object {
-        val NAME_KEY = "NAME_KEY"
         val TAG = "MessagesActivity"
         var currentUser: User? = null
     }
@@ -45,6 +44,7 @@ class MessagesActivity : AppCompatActivity() {
 
         supportActionBar?.title ="Chat"
 
+        verifyUserIsLoggedIn()
         fetchUser()
 
         recycleview_messages_activity.adapter = adapter
@@ -62,10 +62,6 @@ class MessagesActivity : AppCompatActivity() {
 
         listenForLatestMessages()
 
-        verifyUserIsLoggedIn()
-
-        indirizzaUserFirst()
-
         firstAccess()
     }
 
@@ -75,7 +71,7 @@ class MessagesActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
-                val chatMessage = p0.getValue(ChatMessage::class.java) ?: null
+                val chatMessage = p0.getValue(ChatMessage::class.java)
                 if(chatMessage == null) {
                     notmessages_activiymessages.visibility = View.VISIBLE
                 }
@@ -89,53 +85,12 @@ class MessagesActivity : AppCompatActivity() {
 
     }
 
-    private fun indirizzaUserFirst(){
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        if(currentUser == null ){
-            Toast.makeText(this, "Ops, si è verificato un problema. Non risulti essere un utente abilitato. Riprova l'accesso.", Toast.LENGTH_LONG).show()
-            FirebaseAuth.getInstance().signOut()
-
-            val intent = Intent(this, MainActivity::class.java )
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        } else {
-            if(currentUser!!.first){
-                val name = MainActivity.currentUser!!.name+" "+ MainActivity.currentUser!!.surname
-
-                if(MainActivity.currentUser!!.andato){
-
-
-
-                    intent.putExtra(NAME_KEY, name)
-
-                    Toast.makeText(this, "Benvenuto "+name+", compila questo form in modo da aiutare altri ragazzi in questa esperienza!", Toast.LENGTH_LONG).show()
-
-                    val intent = Intent(this, FormActivity::class.java )
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                } else {
-
-                    currentUser!!.first= false
-                    ref.setValue(currentUser)
-
-                    Toast.makeText(this, "Benvenuto "+name+", dai un'occhiata e contatta qualcuno se può esserti utile!", Toast.LENGTH_LONG).show()
-
-                    val intent = Intent(this, FormLogActivity::class.java )
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-            }
-        }
-
-
-
-    }
 
     val latestMessagesMap = HashMap<String, ChatMessage>()
 
     private fun refreshRecyclerViewMessages() {
+        notmessages_activiymessages.visibility = View.GONE
         adapter.clear()
         latestMessagesMap.values.forEach {
             adapter.add(LatestMessageRow(it))
@@ -176,6 +131,7 @@ class MessagesActivity : AppCompatActivity() {
     private fun verifyUserIsLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
+            Toast.makeText(this, "Ops. Si è verificato un problema, riprova l'accesso.", Toast.LENGTH_LONG).show()
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)

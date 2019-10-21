@@ -2,20 +2,24 @@ package com.example.erasmusfamily.Social
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.erasmusfamily.R
+import com.example.erasmusfamily.Setting.SettingActivity
 import com.example.erasmusfamily.messages.MessagesActivity
 import com.example.erasmusfamily.models.Form
 import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_form_compile.*
 import kotlinx.android.synthetic.main.activity_form_item.*
 
@@ -23,7 +27,12 @@ class FormActivity: AppCompatActivity(){
 
     companion object {
         var currentForm: Form?  = null
+        var currentUser: User? = null
     }
+
+    private val KEY_USER_OBJECT = "USER"
+    private val key_user = "USER"
+    lateinit var mPref: SharedPreferences
 
     private var list_of_nationalities= arrayOf("Austria", "Belgio", "Bulgaria", "Cechia", "Cipro", "Croazia", "Danimarca", " Estonia",
         "Finlandia", "Francia", "Germania", "Grecia", "Irlanda", "Italia", "lettonia", "Lituania", "Lussemburgo",
@@ -65,7 +74,10 @@ class FormActivity: AppCompatActivity(){
             }
         }
 
+        verifyUserIsLoggedIn()
+        fetchUser()
         fetchCurrentForm()
+
 
         button_form_row.setOnClickListener{
             addForm()
@@ -98,7 +110,7 @@ class FormActivity: AppCompatActivity(){
                     val position = myAdapter.getPosition(currentForm?.nazione)
                     spin.setSelection(position)
 
-                    button_form_row.setText("MODIFICA")
+                    button_form_row.text = "MODIFCA"
 
                 }
 
@@ -122,31 +134,31 @@ class FormActivity: AppCompatActivity(){
          note = note_form_row.text.toString()
 
         if(uni_ospitante.isEmpty() || uni_ospitante.length < 3){
-            universitàospitante_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+            universitàospitante_form_row.error = "Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri"
             universitàospitante_form_row.requestFocus()
             return
         }
 
         if(facoltà.isEmpty() || facoltà.length < 3){
-            facoltà_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+            facoltà_form_row.error = "Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri"
             facoltà_form_row.requestFocus()
             return
         }
 
         if(permanenza.toString().isEmpty() || permanenza.toString().length > 2 || permanenza > 12 || permanenza < 1){
-            mesipermanenza_form_row.setError("Il campo non rispetta i paramentri di dimensione. I mesi devono essere compresi tra 1 e 12")
+            mesipermanenza_form_row.error = "Il campo non rispetta i paramentri di dimensione. I mesi devono essere compresi tra 1 e 12"
             mesipermanenza_form_row.requestFocus()
             return
         }
 
         if(uni_partenza.isEmpty() || uni_partenza.length < 3){
-            universitàpartenza_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+            universitàpartenza_form_row.error = "Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri"
             universitàpartenza_form_row.requestFocus()
             return
         }
 
         if(note.isEmpty() || note.length < 20){
-            note_form_row.setError("Il campo non rispetta i paramentri di dimensione. Almeno 20 caratteri")
+            note_form_row.error = "Il campo non rispetta i paramentri di dimensione. Almeno 20 caratteri"
             note_form_row.requestFocus()
             return
         }
@@ -157,16 +169,17 @@ class FormActivity: AppCompatActivity(){
         val ref = FirebaseDatabase.getInstance().getReference("form/$uid")
 
 
-        val form = MainActivity.currentUser?.let {
-            Form(MainActivity.currentUser?.name+" "+ MainActivity.currentUser?.surname, uni_ospitante, nazione, facoltà, permanenza, uni_partenza, note,
+        val form = currentUser?.let {
+            Form(currentUser?.name+" "+ currentUser?.surname, uni_ospitante, nazione, facoltà, permanenza, uni_partenza, note,
                 it
             )
         }
         ref.setValue(form).addOnSuccessListener {
 
             val refUs = FirebaseDatabase.getInstance().getReference("/users/$uid")
-            MainActivity.currentUser!!.first= false
-            refUs.setValue(MainActivity.currentUser)
+            currentUser!!.first = false
+            refUs.setValue(currentUser)
+            updateUser()
 
             val intent = Intent(this, FormLogActivity::class.java )
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -176,6 +189,7 @@ class FormActivity: AppCompatActivity(){
 
     }
 
+    /*//Quando l'activity viene chiusa
     override fun onBackPressed() {
         super.onBackPressed()
 
@@ -183,6 +197,40 @@ class FormActivity: AppCompatActivity(){
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
 
+    }*/
+
+    //Fetch User
+    private fun fetchUser(){
+        mPref= getSharedPreferences(KEY_USER_OBJECT,MODE_PRIVATE)
+
+        val gson = Gson()
+        val json = mPref.getString(key_user, "")
+        currentUser = gson.fromJson(json, User::class.java)
     }
 
+    //Verifica se l'utente è loggato
+    private fun verifyUserIsLoggedIn() {
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            Toast.makeText(this, "Ops. Si è verificato un problema, riprova l'accesso.", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
+    //Aggiorna dati user
+    private fun updateUser(){
+        mPref= getSharedPreferences(KEY_USER_OBJECT ,MODE_PRIVATE)
+
+        if(currentUser != null){
+
+            val gson = Gson()
+            val json = gson.toJson(currentUser, User::class.java)
+            mPref.edit().putString(key_user, json).apply()
+            println(currentUser.toString())
+        }
+
+
+    }
 }

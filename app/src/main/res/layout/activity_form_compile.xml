@@ -160,21 +160,20 @@
 
     <EditText
         android:id="@+id/note_form_row"
-        android:layout_width="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
-
         android:background="@drawable/rounded_edittext_register_login"
+        android:ems="10"
         android:gravity="start"
         android:hint="- Esami sostenuti in Erasmus / Corrispondenza\n- Dove hai alloggiato \n- Note personali / consigli\n Ricordati che tutto quello che scriverai sarà utile a qualcuno"
         android:inputType="textCapSentences"
-        android:maxWidth="350dp"
-        android:maxHeight="200dp"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/universitàpartenza_form_row"
         app:layout_constraintStart_toStartOf="@+id/text_domanda_6"
         app:layout_constraintTop_toBottomOf="@+id/text_domanda_6" />
-
 
     <Button
         android:id="@+id/button_form_row"
