@@ -6,4 +6,5 @@
     <color name="colorAccent">#0C067C</color>
     <color name="darkgray">#6c6c6c</color>
     <color name="background">#e9e6ff</color>
+    <color name="chatIncoming">#9999ff</color>
 </resources>

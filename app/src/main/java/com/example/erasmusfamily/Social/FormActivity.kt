@@ -157,8 +157,8 @@ class FormActivity: AppCompatActivity(){
             return
         }
 
-        if(note.isEmpty() || note.length < 20){
-            note_form_row.error = "Il campo non rispetta i paramentri di dimensione. Almeno 20 caratteri"
+        if(note.isEmpty() || note.length < 20 || note.length > 500){
+            note_form_row.error = "Il campo non rispetta i paramentri di dimensione. Almeno 20 caratteri e massimo 500"
             note_form_row.requestFocus()
             return
         }

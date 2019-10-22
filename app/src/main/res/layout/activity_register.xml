@@ -48,8 +48,8 @@
                 android:layout_height="40dp"
                 android:background="@drawable/rounded_edittext_register_login"
                 android:ems="10"
-                android:hint="Name"
-                android:inputType="textCapSentences"
+                android:hint="Nome"
+                android:inputType="textCapWords"
                 android:maxHeight="25dp"
                 android:maxLength="18"
                 android:paddingLeft="16dp" />
@@ -72,11 +72,11 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_edittext_register_login"
                 android:ems="10"
-                android:hint="Surname"
-                android:inputType="textCapSentences"
-                android:paddingLeft="16dp"
+                android:hint="Cognome"
+                android:inputType="textCapWords"
                 android:maxHeight="25dp"
-                android:maxLength="18"/>
+                android:maxLength="18"
+                android:paddingLeft="16dp" />
 
 
         </com.google.android.material.textfield.TextInputLayout>

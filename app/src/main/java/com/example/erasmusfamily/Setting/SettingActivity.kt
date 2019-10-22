@@ -52,7 +52,7 @@ class SettingActivity: AppCompatActivity(){
         verifyUserIsLoggedIn()
         fetchUser()
 
-        supportActionBar?.title = "User"
+        supportActionBar?.title = "Profilo"
         supportActionBar?.setIcon(R.drawable.ic_settings)
 
 
@@ -224,7 +224,6 @@ class SettingActivity: AppCompatActivity(){
 
     private fun uploadImageToFirbaseStorage() {
 
-        text_progresbar_setting.visibility = View.VISIBLE
         progressBar_setting.visibility = View.VISIBLE
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -276,7 +275,6 @@ class SettingActivity: AppCompatActivity(){
         }
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        text_progresbar_setting.visibility = View.GONE
         progressBar_setting.visibility = View.GONE
 
     }

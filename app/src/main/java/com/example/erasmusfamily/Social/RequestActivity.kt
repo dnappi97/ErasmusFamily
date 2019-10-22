@@ -75,14 +75,14 @@ class RequestActivity: AppCompatActivity(){
         val textRequest = textrequest_rquest_compile.text.toString()
 
 
-        if(titleRequest.isEmpty() || titleRequest.length < 3){
-            rquesttitle_request_compile.setError("Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri")
+        if(titleRequest.isEmpty() || titleRequest.length < 5 || titleRequest.length > 35){
+            rquesttitle_request_compile.error = "Il campo non rispetta i paramentri di dimensione. Almeno 4 caratteri e massimo 35"
             rquesttitle_request_compile.requestFocus()
             return
         }
 
-        if(textRequest.isEmpty() || textRequest.length < 10){
-            textrequest_rquest_compile.setError("Il campo non rispetta i paramentri di dimensione. Almeno 10 caratteri")
+        if(textRequest.isEmpty() || textRequest.length < 10 || textRequest.length > 500){
+            textrequest_rquest_compile.error = "Il campo non rispetta i paramentri di dimensione. Almeno 10 caratteri e massimo 500"
             textrequest_rquest_compile.requestFocus()
             return
         }

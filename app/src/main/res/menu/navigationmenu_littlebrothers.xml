@@ -34,7 +34,7 @@
 
     <item
         android:id="@+id/navigation_Setting"
-        android:title="User"
+        android:title="Profilo"
         android:icon="@drawable/ic_settings"/>
 
     <item
