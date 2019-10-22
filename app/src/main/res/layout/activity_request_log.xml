@@ -27,7 +27,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Al momento non  sono presenti domande attive.\nPuoi pubblicare una domanda premendo sul pulsante in alto."
+        android:text="Al momento non  sono presenti domande.\nPuoi pubblicare una domanda premendo sul pulsante in alto."
         android:textColor="@android:color/black"
         android:textStyle="bold|italic"
         android:visibility="invisible"

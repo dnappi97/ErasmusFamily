@@ -21,6 +21,8 @@ class ChangePasswordActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_changepassword)
 
+        supportActionBar?.title = "Cambia Password"
+
         verifyUserIsLoggedIn()
         changePassword()
     }
