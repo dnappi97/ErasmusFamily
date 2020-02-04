@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <group>
 
         <item
@@ -17,21 +16,20 @@
         <item
             android:id="@+id/navigation_message"
             android:icon="@drawable/ic_chat"
-            android:title="Message"
-            app:showAsAction="always"/>
+            android:title="Message" />
 
     </group>
 
     <item
         android:id="@+id/navigation_mete"
         android:title="Mete"
-        android:icon="@drawable/ic_mete"/>
-
+        android:icon="@drawable/ic_mete"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/navigation_Setting"
         android:title="Profilo"
-        android:icon="@drawable/ic_settings"/>
+        android:icon="@drawable/ic_user"/>
 
     <item
         android:id="@+id/navigation_logout"

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sfondo"
+    android:orientation="vertical"
+    tools:context=".Social.MeteViewActivity">
+
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UNIVERSITA'  DEGLI STUDI DI SALERNO"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Programma Erasmus+ - Mobilità per studio: bando 2020-2021 - ALL.2 - Elenco Istituzioni ospitanti"
+        android:textColor="@android:color/black"/>
+
+    <Spinner
+        android:id="@+id/spinner_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Button
+        android:id="@+id/button_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="VISUALIZZA PDF"
+        android:gravity="center"
+        android:background="@drawable/rounded_button"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_pdf"
+        app:layout_constraintStart_toStartOf="@+id/spinner_pdf"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_pdf" />
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
+
+</LinearLayout>

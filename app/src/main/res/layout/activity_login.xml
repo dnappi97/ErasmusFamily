@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/sfondo"
     android:orientation="vertical"
     tools:context=".registerlogin.RegisterActivity">
 
     <ImageView
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/ic_planet_earth"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:background="@drawable/ic_logo_app_scritta_foreground"
         app:layout_constraintBottom_toTopOf="@+id/email_login_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

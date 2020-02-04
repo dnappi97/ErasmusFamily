@@ -29,7 +29,10 @@
 
     </group>
 
-
+    <item
+        android:id="@+id/navigation_mete"
+        android:title="Mete"
+        android:icon="@drawable/ic_mete"/>
 
 
     <item

@@ -32,12 +32,17 @@
     </group>
 
 
+    <item
+        android:id="@+id/navigation_mete"
+        android:title="Mete"
+        android:icon="@drawable/ic_mete"/>
 
 
     <item
         android:id="@+id/navigation_Setting"
         android:title="Profilo"
         android:icon="@drawable/ic_settings"/>
+
 
     <item
         android:id="@+id/navigation_logout"

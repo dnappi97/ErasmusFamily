@@ -188,6 +188,10 @@ class RequestLogActivity: AppCompatActivity(){
                 val intent = Intent(this, RequestActivity::class.java)
                 startActivity(intent)
             }
+            R.id.navigation_mete -> {
+                val intent = Intent(this, MeteViewActivity::class.java)
+                startActivity(intent)
+            }
             R.id.navigation_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, MainActivity::class.java)

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/sfondo"
     android:orientation="vertical"
     android:id="@+id/scrollview_registration">
 
@@ -17,7 +17,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/ic_camera_blu"
+            android:background="@drawable/ic_camera_yellow"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textStyle="bold"

@@ -14,6 +14,7 @@ import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Setting.SettingActivity
 import com.example.erasmusfamily.Social.FormActivity
 import com.example.erasmusfamily.Social.FormLogActivity
+import com.example.erasmusfamily.Social.MeteViewActivity
 import com.example.erasmusfamily.Social.RequestLogActivity
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.User
@@ -151,6 +152,10 @@ class MessagesActivity : AppCompatActivity() {
                 startActivity(intent)
             } R.id.navigation_Setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.navigation_mete -> {
+                val intent = Intent(this, MeteViewActivity::class.java)
                 startActivity(intent)
             }
             R.id.navigation_logout -> {

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Social.FormActivity
 import com.example.erasmusfamily.Social.FormLogActivity
+import com.example.erasmusfamily.Social.MeteViewActivity
 import com.example.erasmusfamily.Social.RequestLogActivity
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
@@ -123,6 +124,10 @@ class SettingActivity: AppCompatActivity(){
             }
             R.id.navigation_form -> {
                 val intent = Intent(this, FormLogActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.navigation_mete -> {
+                val intent = Intent(this, MeteViewActivity::class.java)
                 startActivity(intent)
             }
             R.id.navigation_logout -> {
