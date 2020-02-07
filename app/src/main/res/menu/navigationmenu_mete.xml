@@ -22,7 +22,7 @@
 
     <item
         android:id="@+id/navigation_mete"
-        android:title="Mete"
+        android:title="Istituzioni Ospitanti"
         android:icon="@drawable/ic_mete"
         app:showAsAction="always"/>
 
