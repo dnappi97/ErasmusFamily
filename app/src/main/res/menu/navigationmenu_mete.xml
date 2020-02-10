@@ -16,7 +16,7 @@
         <item
             android:id="@+id/navigation_message"
             android:icon="@drawable/ic_chat"
-            android:title="Message" />
+            android:title="Chat" />
 
     </group>
 
@@ -25,6 +25,10 @@
         android:title="Istituzioni Ospitanti"
         android:icon="@drawable/ic_mete"
         app:showAsAction="always"/>
+
+    <item android:id="@+id/navigation_document"
+        android:title="Documentazione"
+        android:icon="@drawable/ic_document"/>
 
     <item
         android:id="@+id/navigation_Setting"

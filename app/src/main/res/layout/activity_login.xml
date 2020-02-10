@@ -9,15 +9,17 @@
     tools:context=".registerlogin.RegisterActivity">
 
     <ImageView
-        android:layout_width="400dp"
+        android:id="@+id/imageView2"
+        android:layout_width="450dp"
         android:layout_height="400dp"
-        android:background="@drawable/ic_logo_app_scritta_foreground"
+        android:background="@drawable/ic_icona_app_def_foreground"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toTopOf="@+id/email_login_layout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintVertical_bias="0.526" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_login_layout"
@@ -25,7 +27,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:maxHeight="25dp"

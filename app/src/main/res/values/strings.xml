@@ -4,6 +4,8 @@
     <string name="close">close</string>
 
 
+    <string name="prova">Se vuoi visitare il sito clicca qui</string>
+
     <string-array name="Nazionalità_UE">
         <item>Austria</item>
         <item>Belgio</item>

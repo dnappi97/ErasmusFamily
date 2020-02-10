@@ -126,6 +126,10 @@ class MeteViewActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
+            R.id.navigation_document ->{
+                val intent = Intent(this, CheckDocumentActivity::class.java)
+                startActivity(intent)
+            }
 
         }
 

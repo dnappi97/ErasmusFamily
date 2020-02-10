@@ -18,10 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.erasmusfamily.R
-import com.example.erasmusfamily.Social.FormActivity
-import com.example.erasmusfamily.Social.FormLogActivity
-import com.example.erasmusfamily.Social.MeteViewActivity
-import com.example.erasmusfamily.Social.RequestLogActivity
+import com.example.erasmusfamily.Social.*
 import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
 import com.example.erasmusfamily.models.User
@@ -134,6 +131,10 @@ class SettingActivity: AppCompatActivity(){
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+            R.id.navigation_document ->{
+                val intent = Intent(this, CheckDocumentActivity::class.java)
                 startActivity(intent)
             }
         }

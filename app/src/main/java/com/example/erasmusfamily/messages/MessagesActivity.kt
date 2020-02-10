@@ -12,10 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.erasmusfamily.R
 import com.example.erasmusfamily.Setting.SettingActivity
-import com.example.erasmusfamily.Social.FormActivity
-import com.example.erasmusfamily.Social.FormLogActivity
-import com.example.erasmusfamily.Social.MeteViewActivity
-import com.example.erasmusfamily.Social.RequestLogActivity
+import com.example.erasmusfamily.Social.*
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
@@ -162,6 +159,10 @@ class MessagesActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+            R.id.navigation_document ->{
+                val intent = Intent(this, CheckDocumentActivity::class.java)
                 startActivity(intent)
             }
         }
