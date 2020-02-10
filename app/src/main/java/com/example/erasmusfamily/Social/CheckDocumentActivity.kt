@@ -50,6 +50,7 @@ class CheckDocumentActivity : AppCompatActivity() {
 
     lateinit var test: String
 
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -303,10 +304,6 @@ class CheckDocumentActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
-            R.id.navigation_document ->{
-                val intent = Intent(this, CheckDocumentActivity::class.java)
                 startActivity(intent)
             }
         }

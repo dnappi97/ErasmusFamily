@@ -204,7 +204,8 @@ class FormLogActivity : AppCompatActivity() {
             R.id.navigation_request -> {
                 val intent = Intent(this, RequestLogActivity::class.java)
                 startActivity(intent)
-            } R.id.navigation_Setting -> {
+            }
+            R.id.navigation_Setting -> {
                 val intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
             }
