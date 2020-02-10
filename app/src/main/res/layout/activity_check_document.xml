@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sfondo"
+    android:scrollbars="vertical"
+    tools:context=".Social.CheckDocumentActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textSpiegazione_CheckDocument"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Prima di partire assicurati di aver eseguito tutti i passaggi, in modo da non avere problemi durante la tua permanenza.\nTieni traccia dei passaggi effettuati.\nLa documentazione a cui si fa riferimento si trova qui."
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox_LearningAgreement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_LearningAgreement"
+                app:layout_constraintStart_toStartOf="@+id/textSpiegazione_CheckDocument"
+                app:layout_constraintTop_toTopOf="@+id/textView_LearningAgreement" />
+
+            <TextView
+                android:id="@+id/textView_LearningAgreement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Il Learning Agreement è il documento principale per iniziare il tuo Erasmus.\nDescrive le attività formative che seguirai durante quest'esperienza, per saperne di più clicca qui.\nDeve essere firmato in originale dal tuo Docente Tutor e da quello della tua Istituzione ospitante."
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkBox_LearningAgreement"
+                app:layout_constraintTop_toBottomOf="@+id/textSpiegazione_CheckDocument" />
+
+            <TextView
+                android:id="@+id/textView_AttestatoDiPermanenza"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="L'Attestato di permanenza deve essere stampato e consegnato all'arrivo presso l'Istituzione ospitante per essere firmato, in modo da determinare la data d'arrivo.\nDeve essere firmato anche prima della partenza, in modo da determinare la data di ritorno.\nStabilisce la durata della permanenza, in base alla quale riceverai la borsa di studio corrispondente."
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkBox_LearningAgreement"
+                app:layout_constraintStart_toStartOf="@+id/textView_LearningAgreement"
+                app:layout_constraintTop_toBottomOf="@+id/textView_LearningAgreement" />
+
+            <CheckBox
+                android:id="@+id/checkBox_AttestatoDiPermanenza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_AttestatoDiPermanenza"
+                app:layout_constraintStart_toStartOf="@+id/checkBox_LearningAgreement"
+                app:layout_constraintTop_toTopOf="@+id/textView_AttestatoDiPermanenza" />
+
+            <TextView
+                android:id="@+id/textView_TrascriptOfRecords"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Il Trascript Of Records rappresenta la certificazione, rilasciata dall’università ospitante, degli esami sostenuti e delle votazioni conseguite.\nVa presentato all’ufficio Servizio Relazioni Internazionali/Erasmus al momento del rientro."
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView_AttestatoDiPermanenza"
+                app:layout_constraintTop_toBottomOf="@+id/textView_AttestatoDiPermanenza" />
+
+            <CheckBox
+                android:id="@+id/checkBox_TrascriptOfRecords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_TrascriptOfRecords"
+                app:layout_constraintStart_toStartOf="@+id/checkBox_AttestatoDiPermanenza"
+                app:layout_constraintTop_toTopOf="@+id/textView_TrascriptOfRecords" />
+
+            <TextView
+                android:id="@+id/textView_Riconoscimento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Riconoscimento attività didattica mobilità per studio o mobilità per ricerca tesi.\nBisogna compilarlo al termine dell'esperienza Erasmus e presentarlo al Docente Tutor, in modo da chiudere la pratica."
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView_TrascriptOfRecords"
+                app:layout_constraintTop_toBottomOf="@+id/textView_TrascriptOfRecords" />
+
+            <CheckBox
+                android:id="@+id/checkBox_Riconoscimento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_Riconoscimento"
+                app:layout_constraintStart_toStartOf="@+id/checkBox_TrascriptOfRecords"
+                app:layout_constraintTop_toTopOf="@+id/textView_Riconoscimento" />
+
+            <TextView
+                android:id="@+id/textView_OLS"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Il test di lingua OLS (Online Linguistic Support) deve essere sostenuto due volte, all'inizio e al termine dell'esperienza Erasmus, in modo da valutare il progresso linguistico."
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView_Riconoscimento"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Riconoscimento" />
+
+            <CheckBox
+                android:id="@+id/checkBox_OLS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_OLS"
+                app:layout_constraintStart_toStartOf="@+id/checkBox_Riconoscimento"
+                app:layout_constraintTop_toTopOf="@+id/textView_OLS" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
