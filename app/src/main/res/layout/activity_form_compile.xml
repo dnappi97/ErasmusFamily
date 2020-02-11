@@ -385,7 +385,7 @@
                     android:background="@drawable/rounded_edittext_register_login"
                     android:ems="10"
                     android:gravity="start"
-                    android:hint="  Esami sostenuti in Erasmus/Corrispondenza, alloggio, note personali"
+                    android:hint="  Esami sostenuti, alloggio, note personali e consigli"
                     android:inputType="textMultiLine | textCapSentences"
                     android:maxWidth="50dp"
                     android:maxHeight="50dp"
