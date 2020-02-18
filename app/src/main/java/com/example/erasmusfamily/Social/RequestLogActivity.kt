@@ -1,12 +1,14 @@
 package com.example.erasmusfamily.Social
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,10 +18,12 @@ import com.example.erasmusfamily.messages.ChatLogActivity
 import com.example.erasmusfamily.messages.MessagesActivity
 import com.example.erasmusfamily.models.ChatMessage
 import com.example.erasmusfamily.models.Request
+import com.example.erasmusfamily.models.User
 import com.example.erasmusfamily.registerlogin.MainActivity
 import com.example.erasmusfamily.view.RequestItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_messages.*
@@ -28,7 +32,12 @@ import kotlinx.android.synthetic.main.activity_request_log.*
 class RequestLogActivity: AppCompatActivity(){
     companion object{
         val USER_KEY = "USER_KEY"
+        var currentUser: User? = null
     }
+
+    private val KEY_USER_OBJECT = "USER"
+    private val key_user = "USER"
+    lateinit var mPref: SharedPreferences
 
     val adapter = GroupAdapter<ViewHolder>()
 
@@ -42,7 +51,7 @@ class RequestLogActivity: AppCompatActivity(){
         recycleview_request_log.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         verifyUserIsLoggedIn()
-
+        fetchUser()
         firstAccess()
         searchRequest()
     }
@@ -185,8 +194,13 @@ class RequestLogActivity: AppCompatActivity(){
                 startActivity(intent)
             }
             R.id.new_request -> {
-                val intent = Intent(this, RequestActivity::class.java)
-                startActivity(intent)
+                if(!currentUser!!.andato){
+                    val intent = Intent(this, RequestActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this@RequestLogActivity, "Solo i 'LittleBrothers' possono effettuare domande!", Toast.LENGTH_LONG).show()
+                }
+
             }
             R.id.navigation_mete -> {
                 val intent = Intent(this, MeteViewActivity::class.java)
@@ -210,6 +224,16 @@ class RequestLogActivity: AppCompatActivity(){
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.navigationmenu_littlebrothers, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+
+    //Fetch User
+    private fun fetchUser(){
+        mPref = getSharedPreferences(KEY_USER_OBJECT,MODE_PRIVATE)
+
+        val gson = Gson()
+        val json = mPref.getString(key_user, "")
+        currentUser= gson.fromJson(json, User::class.java)
     }
 
 

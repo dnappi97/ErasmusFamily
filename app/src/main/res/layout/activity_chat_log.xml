@@ -18,6 +18,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button_style"
         android:ems="10"
+        android:gravity="fill_vertical | center"
         android:hint="Enter Message"
         android:inputType="textPersonName"
         android:maxWidth="70dp"
